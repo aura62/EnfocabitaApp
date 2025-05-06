@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -37,12 +38,57 @@ android {
 
 dependencies {
 
+    val room_version = "2.7.1"
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     testImplementation(libs.junit)
+    testImplementation(libs.androidx.room.testing)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    //androidTestImplementation(libs.androidx.compose.ui.test.junit)
+
+    // Compose
+    implementation(libs.androidx.ui)
+    implementation (libs.androidx.material3)
+    implementation (libs.androidx.activity.compose)
+    implementation (libs.androidx.lifecycle.viewmodel.compose)
+
+    // Navigation Compose
+    implementation (libs.androidx.navigation.compose)
+
+    // Coroutines
+    implementation (libs.kotlinx.coroutines.android)
+
+    // — MVVM / StateFlow —
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+
+    // — Compose UI Tooling & Preview —
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    implementation     (libs.androidx.compose.ui.tooling.preview)
+
+    // — Room (persistencia local) —
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.room.ktx)
+    ksp           (libs.androidx.room.compiler)  // <-- sustituye a kapt
+    implementation(libs.androidx.room.guava)
+
+    // — DI con Koin —
+    implementation(libs.koin.android)
+    implementation(libs.insert.koin.koin.compose)
+
+    // — Coroutines —
+    implementation(libs.kotlinx.coroutines.android)
+
+    // — DataStore para prefs —
+    implementation(libs.androidx.datastore.preferences)
+
+    // — Seguridad: cifrado de datos sensibles —
+    implementation(libs.androidx.security.crypto)
+
+
+
 }
