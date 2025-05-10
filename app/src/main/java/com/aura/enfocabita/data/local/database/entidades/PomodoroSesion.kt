@@ -9,7 +9,7 @@ import androidx.room.TypeConverters
 import java.util.Date
 
 @Entity(
-    tableName = "habito",
+    tableName = "pomodoro_sesion",
     foreignKeys = [
         ForeignKey(
             entity = Usuario::class,
@@ -21,17 +21,13 @@ import java.util.Date
     indices = [Index("id_Usuario")]
 )
 @TypeConverters(ConvertType::class)
-data class Habito(
-    @PrimaryKey(autoGenerate = true) val idHabito: Long = 0L,
+data class PomodoroSesion(
+    @PrimaryKey(autoGenerate = true) val idPomodoro: Long = 0L,
     @ColumnInfo(name = "id_Usuario") val idUsuario: Long,
-    @ColumnInfo(name = "nombre") val titulo: String,
-    @ColumnInfo(name = "tipo") val tipo: TypeHab,
-    @ColumnInfo(name = "frecuencia") val frecuencia: Int,
-    @ColumnInfo(name = "periodo") val periodo: PeriodUnit = PeriodUnit.DIARIO,
-    @ColumnInfo(name = "fecha_registro") val fechaRegistro: Date
+    @ColumnInfo(name = "nombre_tarea") val tituloTarea: String,
+    @ColumnInfo(name = "duracion_trabajo") val duracion_ms: Long,
+    @ColumnInfo(name = "descanso_corto") val dcorto_ms: Long,
+    @ColumnInfo(name = "descanso_largo") val dLargo_ms: Long,
+    @ColumnInfo(name = "numero_sesiones") val numSesiones: Int,
+    @ColumnInfo(name = "fecha_creacion") val fechaCreacion: Date = Date()
 )
-
-enum class TypeHab { ADQUIRIR, MANTENER, ABANDONAR }
-
-enum class PeriodUnit { DIARIO, SEMANAL, MENSUAL }
-
