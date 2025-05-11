@@ -1,7 +1,9 @@
+
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.ksp)
+
 }
 
 android {
@@ -73,12 +75,6 @@ dependencies {
     // — Room (persistencia local) —
     implementation(libs.androidx.room.runtime)
     implementation(libs.room.ktx)
-    ksp           (libs.androidx.room.compiler)  // <-- sustituye a kapt
-    implementation(libs.androidx.room.guava)
-
-    // — DI con Koin —
-    implementation(libs.koin.android)
-    implementation(libs.insert.koin.koin.compose)
 
     // — Coroutines —
     implementation(libs.kotlinx.coroutines.android)
@@ -88,6 +84,18 @@ dependencies {
 
     // — Seguridad: cifrado de datos sensibles —
     implementation(libs.androidx.security.crypto)
+
+
+    //Para inyeccion de dependencias
+    implementation(project.dependencies.platform(libs.koin.bom))
+    implementation(libs.koin.core)
+    implementation(libs.koin.compose)
+    implementation(libs.koin.compose.viewmodel)
+    implementation(libs.koin.android)
+
+
+
+
 
 
 
