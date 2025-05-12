@@ -3,6 +3,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose.compiler)
 
 }
 
@@ -40,11 +41,9 @@ android {
 
 dependencies {
 
-    val room_version = "2.7.1"
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.material)
+    implementation(libs.androidx.material3)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     testImplementation(libs.junit)
@@ -54,8 +53,7 @@ dependencies {
     //androidTestImplementation(libs.androidx.compose.ui.test.junit)
 
     // Compose
-    implementation(libs.androidx.ui)
-    implementation (libs.androidx.material3)
+    implementation(libs.androidx.compose.bom)
     implementation (libs.androidx.activity.compose)
     implementation (libs.androidx.lifecycle.viewmodel.compose)
 
@@ -87,11 +85,15 @@ dependencies {
 
 
     //Para inyeccion de dependencias
-    implementation(project.dependencies.platform(libs.koin.bom))
     implementation(libs.koin.core)
     implementation(libs.koin.compose)
     implementation(libs.koin.compose.viewmodel)
     implementation(libs.koin.android)
+
+    testImplementation(libs.androidx.room.testing)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.junit)
+
 
 
 

@@ -3,9 +3,7 @@ package com.aura.enfocabita.data.local.database.entidades
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import androidx.room.Index
 import androidx.room.PrimaryKey
-import java.util.Date
 
 @Entity(
     tableName = "configuracion_usuario",

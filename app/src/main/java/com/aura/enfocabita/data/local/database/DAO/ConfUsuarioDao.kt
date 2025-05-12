@@ -7,23 +7,28 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.aura.enfocabita.data.local.database.entidades.ConfiguracionUsuario
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ConfUsuarioDao {
 
         @Query("SELECT * FROM configuracion_usuario")
-        suspend fun getAll(): List<ConfiguracionUsuario>
+        suspend fun getAllConfigs(): List<ConfiguracionUsuario>
 
         @Query("SELECT * FROM configuracion_usuario WHERE idUsuario = :id LIMIT 1")
-        suspend fun getByUserId(id: Long): ConfiguracionUsuario?
+        suspend fun getConfigForUser(id: Long): ConfiguracionUsuario?
+
+        @Query("SELECT * FROM configuracion_usuario WHERE idUsuario = :id LIMIT 1")
+        fun observeConfigForUser(id: Long): Flow<ConfiguracionUsuario?>
 
         @Insert(onConflict = OnConflictStrategy.REPLACE)
-        suspend fun insert(confUsuario: ConfiguracionUsuario)
+        suspend fun insertConfig(confUsuario: ConfiguracionUsuario): Long
 
         @Update
-        suspend fun update(confUsuario: ConfiguracionUsuario)
+        suspend fun updateConfig(confUsuario: ConfiguracionUsuario): Int
 
         @Delete
-        suspend fun delete(confUsuario: ConfiguracionUsuario)
+        suspend fun deleteConfig(confUsuario: ConfiguracionUsuario): Int
+
 
 }

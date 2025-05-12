@@ -12,7 +12,8 @@ class ConvertType {
         date?.time
 
     @TypeConverter fun toUserType(vUser: String): UserType =
-        UserType.valueOf(vUser)
+        runCatching { UserType.valueOf(vUser) }
+            .getOrDefault(UserType.STANDARD)
 
     @TypeConverter fun fromUsertype(typeUsr: UserType): String =
         typeUsr.name
