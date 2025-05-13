@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import com.aura.enfocabita.data.local.database.entidades.ConfiguracionUsuario
 import kotlinx.coroutines.flow.Flow
@@ -29,6 +30,13 @@ interface ConfUsuarioDao {
 
         @Delete
         suspend fun deleteConfig(confUsuario: ConfiguracionUsuario): Int
+
+        @Transaction
+        suspend fun upsertAndGetConfig(conf: ConfiguracionUsuario): ConfiguracionUsuario? {
+                insertConfig(conf)
+                return getConfigForUser(conf.idUsuario)
+        }
+
 
 
 }

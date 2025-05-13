@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import com.aura.enfocabita.data.local.database.entidades.EstadisticaPomodoro
 import kotlinx.coroutines.flow.Flow
@@ -56,4 +57,7 @@ interface EstadisticaPomodoroDao {
     /** Borra por ID y devuelve filas borradas */
     @Query("DELETE FROM estadistica_pomodoro WHERE idEstPomodoro = :id")
     suspend fun deleteStatById(id: Long): Int
+
+    @Transaction
+    suspend fun upsertAndGetAll(stat: EstadisticaPomodoro): List<EstadisticaPomodoro>
 }

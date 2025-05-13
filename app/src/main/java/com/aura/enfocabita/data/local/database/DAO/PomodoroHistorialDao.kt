@@ -6,31 +6,45 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.aura.enfocabita.data.local.database.entidades.PomodoroHistorial
+import kotlinx.coroutines.flow.Flow
 import java.util.Date
 
 @Dao
 interface PomodoroHistorialDao {
 
+    /** Reactivo: observa todos los registros de historial */
     @Query("SELECT * FROM pomodoro_historial")
-    suspend fun getAll(): List<PomodoroHistorial>
+    fun observeAllHistorial(): Flow<List<PomodoroHistorial>>
 
-    @Query("SELECT * FROM pomodoro_historial WHERE id_pomodoro = :idPomodoro")
-    suspend fun getByPomodoro(idPomodoro: Long): List<PomodoroHistorial>
+    /** Carga puntual de todos los registros */
+    @Query("SELECT * FROM pomodoro_historial")
+    suspend fun getAllHistorial(): List<PomodoroHistorial>
 
-    @Query("SELECT * FROM pomodoro_historial WHERE fecha = :fecha")
-    suspend fun getByFecha(fecha: Date): List<PomodoroHistorial>
+    /** Reactivo: historial para una sesión Pomodoro concreta */
+    @Query("SELECT * FROM pomodoro_historial WHERE id_pomodoro = :pomodoroId")
+    fun observeHistorialByPomodoro(pomodoroId: Long): Flow<List<PomodoroHistorial>>
 
-    @Query("SELECT COUNT(*) FROM pomodoro_historial WHERE fecha = :fecha")
-    suspend fun contarSesionesPorFecha(fecha: Date): Int
+    /** Carga puntual de historial por sesión Pomodoro */
+    @Query("SELECT * FROM pomodoro_historial WHERE id_pomodoro = :pomodoroId")
+    suspend fun getHistorialByPomodoro(pomodoroId: Long): List<PomodoroHistorial>
 
+    /** Historiales de un día concreto */
+    @Query("SELECT * FROM pomodoro_historial WHERE fecha = :date")
+    suspend fun getHistorialByDate(date: Date): List<PomodoroHistorial>
 
+    /** Cuenta sesiones completadas en una fecha */
+    @Query("SELECT COUNT(*) FROM pomodoro_historial WHERE fecha = :date")
+    suspend fun countSessionsByDate(date: Date): Int
+
+    /** Inserta o reemplaza y devuelve el ID generado */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(historial: PomodoroHistorial)
+    suspend fun insertHistorial(record: PomodoroHistorial): Long
 
+    /** Actualiza y devuelve filas modificadas */
     @Update
-    suspend fun update(historial: PomodoroHistorial)
+    suspend fun updateHistorial(record: PomodoroHistorial): Int
 
+    /** Elimina por su ID y devuelve filas borradas */
     @Query("DELETE FROM pomodoro_historial WHERE idHistorial = :id")
-    suspend fun deleteById(id: Long)
-
+    suspend fun deleteHistorialById(id: Long): Int
 }

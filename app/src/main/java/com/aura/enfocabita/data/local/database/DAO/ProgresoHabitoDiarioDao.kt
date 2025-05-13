@@ -4,28 +4,59 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import com.aura.enfocabita.data.local.database.entidades.ProgresoHabitoDiario
+import kotlinx.coroutines.flow.Flow
 import java.util.Date
 
 @Dao
 interface ProgresoHabitoDiarioDao {
 
-    @Query("SELECT * FROM progreso_habito_diario")
-    suspend fun getAll(): List<ProgresoHabitoDiario>
+        /** Reactivo: observa todo el progreso diario */
+        @Query("SELECT * FROM progreso_habito_diario")
+        fun observeAllProgress(): Flow<List<ProgresoHabitoDiario>>
 
-    @Query("SELECT * FROM progreso_habito_diario WHERE id_Habito = :idHabito")
-    suspend fun getByHabito(idHabito: Long): List<ProgresoHabitoDiario>
+        /** Carga puntual de todo el progreso diario */
+        @Query("SELECT * FROM progreso_habito_diario")
+        suspend fun getAllProgress(): List<ProgresoHabitoDiario>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(progreso: ProgresoHabitoDiario)
+        /** Reactivo: observa progreso de un hábito concreto */
+        @Query("SELECT * FROM progreso_habito_diario WHERE id_Habito = :habitId")
+        fun observeProgressByHabit(habitId: Long): Flow<List<ProgresoHabitoDiario>>
 
-    @Update
-    suspend fun update(progreso: ProgresoHabitoDiario)
+        /** Carga puntual de progreso de un hábito */
+        @Query("SELECT * FROM progreso_habito_diario WHERE id_Habito = :habitId")
+        suspend fun getProgressByHabit(habitId: Long): List<ProgresoHabitoDiario>
 
-    @Query("DELETE FROM progreso_habito_diario WHERE idPrHab = :id")
-    suspend fun deleteById(id: Long)
+        /** Obtiene el progreso de un hábito en una fecha dada */
+        @Query("""
+      SELECT * 
+      FROM progreso_habito_diario 
+      WHERE id_Habito = :habitId 
+        AND fecha_registro = :date 
+      LIMIT 1
+    """)
+        suspend fun getProgressByHabitAndDate(habitId: Long, date: Date): ProgresoHabitoDiario?
 
-    @Query("SELECT * FROM progreso_habito_diario WHERE id_Habito = :idHabito AND fecha_registro = :fecha LIMIT 1")
-    suspend fun getByHabitoAndFecha(idHabito: Long, fecha: Date): ProgresoHabitoDiario?
+        /** Inserta o reemplaza, devolviendo el ID generado */
+        @Insert(onConflict = OnConflictStrategy.REPLACE)
+        suspend fun insertProgress(progress: ProgresoHabitoDiario): Long
+
+        /** Actualiza y devuelve número de filas modificadas */
+        @Update
+        suspend fun updateProgress(progress: ProgresoHabitoDiario): Int
+
+        /** Elimina por ID y devuelve número de filas borradas */
+        @Query("DELETE FROM progreso_habito_diario WHERE idPrHab = :id")
+        suspend fun deleteProgressById(id: Long): Int
+
+        /**
+         * Transacción: inserta/reemplaza y retorna el progreso de ese día
+         */
+        @Transaction
+        suspend fun upsertAndGetByHabitAndDate(progress: ProgresoHabitoDiario): ProgresoHabitoDiario? {
+            insertProgress(progress)
+            return getProgressByHabitAndDate(progress.idHab, progress.fechaRegistro)
+        }
 }

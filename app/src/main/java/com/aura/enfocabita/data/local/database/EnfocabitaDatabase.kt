@@ -2,6 +2,7 @@ package com.aura.enfocabita.data.local.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.aura.enfocabita.data.local.database.DAO.ConfUsuarioDao
 import com.aura.enfocabita.data.local.database.DAO.EstadisticaGlobalDao
 import com.aura.enfocabita.data.local.database.DAO.EstadisticaHabitoDao
@@ -14,6 +15,7 @@ import com.aura.enfocabita.data.local.database.DAO.RecordatorioHabitoDao
 import com.aura.enfocabita.data.local.database.DAO.RecordatorioPomodoroDao
 import com.aura.enfocabita.data.local.database.DAO.UsuarioDao
 import com.aura.enfocabita.data.local.database.entidades.ConfiguracionUsuario
+import com.aura.enfocabita.data.local.database.entidades.ConvertType
 import com.aura.enfocabita.data.local.database.entidades.EstadisticaGlobal
 import com.aura.enfocabita.data.local.database.entidades.EstadisticaHabito
 import com.aura.enfocabita.data.local.database.entidades.EstadisticaPomodoro
@@ -25,24 +27,37 @@ import com.aura.enfocabita.data.local.database.entidades.RecordatorioHabito
 import com.aura.enfocabita.data.local.database.entidades.RecordatorioPomodoro
 import com.aura.enfocabita.data.local.database.entidades.Usuario
 
-@Database(entities = [Usuario::class, Habito::class, PomodoroSesion::class, ConfiguracionUsuario::class, EstadisticaGlobal::class,
-    EstadisticaHabito::class, EstadisticaPomodoro::class, RecordatorioHabito::class, RecordatorioPomodoro::class, ProgresoHabitoDiario::class,
-    PomodoroHistorial::class], version = 1)
+@Database(
+    entities = [
+        Usuario::class,
+        ConfiguracionUsuario::class,
+        Habito::class,
+        ProgresoHabitoDiario::class,
+        RecordatorioHabito::class,
+        PomodoroSesion::class,
+        PomodoroHistorial::class,
+        RecordatorioPomodoro::class,
+        EstadisticaHabito::class,
+        EstadisticaPomodoro::class,
+        EstadisticaGlobal::class
+    ],
+    version = 1,
+    exportSchema = true
+)
+@TypeConverters(ConvertType::class)
 abstract class EnfocabitaDatabase : RoomDatabase() {
 
-    abstract fun getUsuarioDao(): UsuarioDao
-    abstract fun getHabitoDao(): HabitoDao
-    abstract fun getPomodoroSesionDao(): PomodoroSesionDao
-    abstract fun getConfiguracionUsuarioDao(): ConfUsuarioDao
-    abstract fun getEstadisticaGlobalDao(): EstadisticaGlobalDao
-    abstract fun getEstadisticaHabitoDao(): EstadisticaHabitoDao
-    abstract fun getEstadisticaPomodoroDao(): EstadisticaPomodoroDao
-    abstract fun getRecordatorioHabitoDao(): RecordatorioHabitoDao
-    abstract fun getRecordatorioPomodoroDao(): RecordatorioPomodoroDao
-    abstract fun getProgresoHabitoDiarioDao(): ProgresoHabitoDiarioDao
-    abstract fun getPomodoroHistorialDao(): PomodoroHistorialDao
+    abstract fun usuarioDao(): UsuarioDao
+    abstract fun configuracionUsuarioDao(): ConfUsuarioDao
+    abstract fun habitoDao(): HabitoDao
+    abstract fun progresoHabitoDiarioDao(): ProgresoHabitoDiarioDao
+    abstract fun recordatorioHabitoDao(): RecordatorioHabitoDao
+    abstract fun pomodoroSesionDao(): PomodoroSesionDao
+    abstract fun pomodoroHistorialDao(): PomodoroHistorialDao
+    abstract fun recordatorioPomodoroDao(): RecordatorioPomodoroDao
+    abstract fun estadisticaHabitoDao(): EstadisticaHabitoDao
+    abstract fun estadisticaPomodoroDao(): EstadisticaPomodoroDao
+    abstract fun estadisticaGlobalDao(): EstadisticaGlobalDao
 
-
-
-
+    // TODO: añadir .addMigrations(...) cuando incrementes la versión
 }
