@@ -30,18 +30,3 @@ import org.koin.dsl.module
         single { get<EnfocabitaDatabase>().estadisticaPomodoroDao() }
         single { get<EnfocabitaDatabase>().estadisticaGlobalDao() }
     }
-
-    // Esqueleto de módulo de repositorios (definir repositorios después)
-    val repositoryModule = module {
-        // single { UserRepository(get()) }
-        // single { ConfigUsuarioRepository(get()) }
-        // single { HabitoRepository(get()) }
-        // single { ProgresoHabitoDiarioRepository(get()) }
-        // single { RecordatorioHabitoRepository(get()) }
-        // single { PomodoroSesionRepository(get()) }
-        // single { PomodoroHistorialRepository(get()) }
-        // single { RecordatorioPomodoroRepository(get()) }
-        // single { EstadisticaHabitoRepository(get()) }
-        // single { EstadisticaPomodoroRepository(get()) }
-        // single { EstadisticaGlobalRepository(get(), get(), get()) }
-    }

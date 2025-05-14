@@ -44,6 +44,9 @@ interface RecordatorioPomodoroDao {
         @Query("DELETE FROM recordatorios_pomodoro WHERE idRdPomodoro = :id")
         suspend fun deleteRecordatorioById(id: Long): Int
 
+        @Query("SELECT * FROM recordatorios_pomodoro WHERE idRdPomodoro = :id")
+        fun observeRecordatorioById(id: Long): Flow<RecordatorioPomodoro?>
+
         /**
          * Transacción compuesta: inserta/reemplaza y devuelve la lista actualizada
          */

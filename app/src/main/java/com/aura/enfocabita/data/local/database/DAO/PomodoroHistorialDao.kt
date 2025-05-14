@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import com.aura.enfocabita.data.local.database.entidades.PomodoroHistorial
 import kotlinx.coroutines.flow.Flow
@@ -36,6 +37,10 @@ interface PomodoroHistorialDao {
     @Query("SELECT COUNT(*) FROM pomodoro_historial WHERE fecha = :date")
     suspend fun countSessionsByDate(date: Date): Int
 
+    @Query("SELECT * FROM pomodoro_historial WHERE idHistorial = :id LIMIT 1")
+    fun observeById(id: Long): Flow<PomodoroHistorial?>
+
+
     /** Inserta o reemplaza y devuelve el ID generado */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertHistorial(record: PomodoroHistorial): Long
@@ -47,4 +52,10 @@ interface PomodoroHistorialDao {
     /** Elimina por su ID y devuelve filas borradas */
     @Query("DELETE FROM pomodoro_historial WHERE idHistorial = :id")
     suspend fun deleteHistorialById(id: Long): Int
+
+    @Transaction
+    suspend fun upsertAndGetAll(record: PomodoroHistorial): List<PomodoroHistorial> {
+        insertHistorial(record)
+        return getAllHistorial()
+    }
 }
