@@ -12,7 +12,7 @@ import java.util.Date
 
 class RegisterUser(
     private val repo: UsuarioRepository,
-    private val validator: AuthValidatorImpl,
+    private val validator: AuthValidator,
     private val nowProvider: () -> Date = { Date() },
     private val passwordHasher: (String) -> String
 ) {
@@ -50,6 +50,7 @@ class RegisterUser(
         // 5) Persistir
         return try {
             repo.createUser(newUser)
+
         } catch (e: SQLiteException) {
             throw DatabaseException("Error al crear el usuario en la base de datos.", e)
         }

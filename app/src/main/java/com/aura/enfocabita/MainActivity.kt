@@ -1,20 +1,33 @@
 package com.aura.enfocabita
 
-import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 
-class MainActivity : AppCompatActivity() {
+import com.aura.enfocabita.presentation.auth.AuthNavGraph
+import com.aura.enfocabita.ui.theme.EnfocabitaTheme
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import com.aura.enfocabita.di.databaseModule
+import com.aura.enfocabita.di.domainModule
+import com.aura.enfocabita.di.repositoryModule
+import com.aura.enfocabita.di.viewModelModule
+import com.aura.enfocabita.presentation.auth.AuthNavGraph
+import com.aura.enfocabita.ui.theme.EnfocabitaTheme
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
+
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+
+        setContent {
+            EnfocabitaTheme {
+                AuthNavGraph(
+                    startDestination = "login",
+                    onNavigateToHome = {
+                        // TODO navegar a tu pantalla principal
+                    }
+                )
+            }
         }
     }
 }

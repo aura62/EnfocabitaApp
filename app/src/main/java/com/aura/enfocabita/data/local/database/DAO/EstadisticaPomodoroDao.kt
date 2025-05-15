@@ -59,5 +59,8 @@ interface EstadisticaPomodoroDao {
     suspend fun deleteStatById(id: Long): Int
 
     @Transaction
-    suspend fun upsertAndGetAll(stat: EstadisticaPomodoro): List<EstadisticaPomodoro>
+    suspend fun upsertAndGetAll(stat: EstadisticaPomodoro): List<EstadisticaPomodoro> {
+        insertStat(stat)
+        return getAllStats()
+    }
 }

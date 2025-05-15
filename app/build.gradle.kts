@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose.compiler)
+    id("com.google.devtools.ksp") version "2.1.20-2.0.0"
 
 }
 
@@ -22,6 +23,7 @@ android {
     }
 
     buildTypes {
+
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -52,6 +54,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     // Compose
+    //noinspection BomWithoutPlatform
     implementation(libs.androidx.compose.bom)
     implementation (libs.androidx.activity.compose)
     implementation (libs.androidx.lifecycle.viewmodel.compose)
@@ -72,6 +75,7 @@ dependencies {
     // — Room (persistencia local) —
     implementation(libs.androidx.room.runtime)
     implementation(libs.room.ktx)
+    ksp(libs.androidx.room.compiler)
 
     // — Coroutines —
     implementation(libs.kotlinx.coroutines.android)
@@ -93,9 +97,6 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.junit)
     testImplementation(kotlin("test"))
-    androidTestImplementation("androidx.test:core:1.5.0")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
 
 
 }

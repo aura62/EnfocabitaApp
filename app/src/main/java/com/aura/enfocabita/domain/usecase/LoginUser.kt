@@ -2,12 +2,12 @@ package com.aura.enfocabita.domain.usecase
 
 import com.aura.enfocabita.data.local.database.entidades.Usuario
 import com.aura.enfocabita.data.repository.UsuarioRepository
-import com.aura.enfocabita.domain.validation.AuthValidatorImpl
+import com.aura.enfocabita.domain.validation.AuthValidator
 
 class LoginUser (
 
     private val repo: UsuarioRepository,
-    private val validator: AuthValidatorImpl,
+    private val validator: AuthValidator,
     private val passwordHasher: (String) -> String
 ) {
     suspend operator fun invoke(

@@ -1,8 +1,10 @@
 package com.aura.enfocabita.presentation.auth
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aura.enfocabita.data.local.database.entidades.Usuario
+import com.aura.enfocabita.data.repository.UsuarioRepository
 import com.aura.enfocabita.domain.error.AuthException
 import com.aura.enfocabita.domain.usecase.LoginUser
 import com.aura.enfocabita.domain.usecase.RegisterUser
@@ -33,6 +35,7 @@ class AuthViewModel(
             _uiState.value = AuthState.Loading
             try {
                 val id = registerUser(nombre.trim(), correo.trim(), password)
+
                 _uiState.value = AuthState.Registered(id)
                 _events.emit(AuthEvent.NavigateToHome)
             } catch (e: AuthException) {
