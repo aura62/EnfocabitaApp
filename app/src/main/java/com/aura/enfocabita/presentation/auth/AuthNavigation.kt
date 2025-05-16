@@ -23,7 +23,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -33,12 +32,13 @@ import org.koin.compose.viewmodel.koinViewModel
 /**
  * Define la navegación de autenticación: login, registro y home.
  */
+
 @Composable
 fun AuthNavGraph(
     startDestination: String = "login",
-    onNavigateToHome: () -> Unit
+    onNavigateToHome: @Composable () -> Unit   // <-- ahora es un Composable lambda
 ) {
-    val navController: NavHostController = rememberNavController()
+    val navController = rememberNavController()
     NavHost(
         navController = navController,
         startDestination = startDestination
@@ -60,13 +60,14 @@ fun AuthNavGraph(
     }
 }
 
+
 /**
  * Pantalla de login usando AuthViewModel.
  */
 @Composable
 fun LoginScreen(
     viewModel: AuthViewModel,
-    onNavigateToHome: () -> Unit,
+    onNavigateToHome: @Composable (() -> Unit),
     onNavigateToRegister: () -> Unit
 ) {
     var email by rememberSaveable { mutableStateOf("") }

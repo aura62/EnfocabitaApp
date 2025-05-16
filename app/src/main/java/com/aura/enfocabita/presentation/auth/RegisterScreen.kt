@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
 fun RegisterScreen(
     viewModel: AuthViewModel = koinViewModel(),
     onNavigateToLogin: () -> Unit,
-    onNavigateToHome: () -> Unit
+    onNavigateToHome: @Composable (() -> Unit)
 ) {
     var nombre by rememberSaveable { mutableStateOf("") }
     var correo by rememberSaveable { mutableStateOf("") }

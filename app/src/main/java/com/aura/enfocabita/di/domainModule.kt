@@ -1,34 +1,37 @@
 package com.aura.enfocabita.di
 
-import com.aura.enfocabita.data.repository.UsuarioRepository
-import com.aura.enfocabita.domain.usecase.LoginUser
-import com.aura.enfocabita.domain.usecase.RegisterUser
+import com.aura.enfocabita.domain.security.PasswordHasher
+import com.aura.enfocabita.domain.security.Pbkdf2PasswordHasher
 import com.aura.enfocabita.domain.validation.AuthValidator
 import com.aura.enfocabita.domain.validation.AuthValidatorImpl
+import com.aura.enfocabita.domain.usecase.LoginUser
+import com.aura.enfocabita.domain.usecase.RegisterUser
 import org.koin.dsl.module
 import java.util.Date
 
 val domainModule = module {
-
-    // 1) Validador único (interfaz → implementación)
+    // 1) El validador de nombre, email y contraseña
     single<AuthValidator> { AuthValidatorImpl() }
 
-    // 2) Registro de usuario
+    // 2) El servicio de hashing de contraseñas
+    single<PasswordHasher> { Pbkdf2PasswordHasher() }
+
+    // 3) Caso de uso de registro
     factory {
         RegisterUser(
-            repo           = get<UsuarioRepository>(),
-            validator      = get<AuthValidator>(),
-            nowProvider    = { Date() },
-            passwordHasher = { plain -> plain }      // stub por ahora
+            repo           = get(),                  // UsuarioRepository
+            validator      = get(),                  // AuthValidator
+            nowProvider    = { Date() },             // fecha actual
+            passwordHasher = get<PasswordHasher>()::hash
         )
     }
 
-    // 3) Login de usuario
+    // 4) Caso de uso de login
     factory {
         LoginUser(
-            repo = get<UsuarioRepository>(),
-            validator = get<AuthValidator>(),
-            passwordHasher = { plain -> plain }      // mismo stub
+            repo           = get(),                  // UsuarioRepository
+            validator      = get(),                  // AuthValidator
+            passwordHasher = get<PasswordHasher>()    // si LoginUser recibe un PasswordHasher
         )
     }
 }

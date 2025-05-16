@@ -2,31 +2,21 @@ package com.aura.enfocabita.domain.usecase
 
 import com.aura.enfocabita.data.local.database.entidades.Usuario
 import com.aura.enfocabita.data.repository.UsuarioRepository
+import com.aura.enfocabita.domain.security.PasswordHasher
 import com.aura.enfocabita.domain.validation.AuthValidator
 
-class LoginUser (
-
+class LoginUser(
     private val repo: UsuarioRepository,
     private val validator: AuthValidator,
-    private val passwordHasher: (String) -> String
+    private val passwordHasher: PasswordHasher
 ) {
-    suspend operator fun invoke(
-        correo: String,
-        plainPassword: String
-    ): Usuario? {
-        // 1) Validamos formato
-        val email = correo.trim()
+    suspend operator fun invoke(email: String, plainPassword: String): Usuario? {
         validator.validateEmail(email)
         validator.validatePassword(plainPassword)
-
-        // 2) Intentamos recuperar el usuario
         val user = repo.findByEmail(email) ?: return null
-
-        // 3) Comparamos hashes
-        val hashedInput = passwordHasher(plainPassword)
-        return if (hashedInput == user.encryptedPassword) user
-        else null
-
-
+        return if (passwordHasher.verify(plainPassword, user.encryptedPassword))
+            user
+        else
+            null
     }
 }

@@ -98,5 +98,10 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(kotlin("test"))
 
+    //material3
+    // en tu build.gradle (module)
+    implementation(libs.androidx.material.icons.extended)
+
+
 
 }
