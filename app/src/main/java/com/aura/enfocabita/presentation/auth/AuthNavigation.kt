@@ -26,23 +26,34 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.flow.collectLatest
 import org.koin.compose.viewmodel.koinViewModel
 
 
 /**
- * Define la navegación de autenticación: login, registro y home.
+ * Gráfico de navegación para el flujo de autenticación.
+ *
+ * Contiene las rutas hacia las pantallas de login y registro.
+ * Permite transicionar a la sección principal (Inicio) una vez
+ * el usuario se ha autenticado exitosamente.
+ *
+ * @param startDestination Ruta inicial del grafo (por defecto: "login").
+ * @param onNavigateToHome Callback que se ejecuta tras login/registro exitoso,
+ *                         recibiendo el ID del usuario autenticado.
  */
 
 @Composable
 fun AuthNavGraph(
     startDestination: String = "login",
-    onNavigateToHome: @Composable () -> Unit   // <-- ahora es un Composable lambda
+    onNavigateToHome: (Long) -> Unit
 ) {
     val navController = rememberNavController()
+
     NavHost(
         navController = navController,
         startDestination = startDestination
     ) {
+        // Pantalla de login
         composable("login") {
             LoginScreen(
                 viewModel = koinViewModel(),
@@ -50,6 +61,8 @@ fun AuthNavGraph(
                 onNavigateToHome = onNavigateToHome
             )
         }
+
+        // Pantalla de registro
         composable("register") {
             RegisterScreen(
                 viewModel = koinViewModel(),
@@ -60,23 +73,34 @@ fun AuthNavGraph(
     }
 }
 
-
 /**
- * Pantalla de login usando AuthViewModel.
+ * Pantalla de inicio de sesión para usuarios existentes.
+ *
+ * Permite ingresar correo y contraseña, y muestra el estado actual de la operación.
+ * Navega a la pantalla principal (Inicio) si el login es exitoso,
+ * o muestra mensajes de error si ocurre algún problema.
+ *
+ * @param viewModel ViewModel que maneja el estado y lógica del login.
+ * @param onNavigateToHome Callback que se dispara con el ID del usuario tras login exitoso.
+ * @param onNavigateToRegister Callback para navegar a la pantalla de registro.
  */
 @Composable
 fun LoginScreen(
     viewModel: AuthViewModel,
-    onNavigateToHome: @Composable (() -> Unit),
+    onNavigateToHome: (Long) -> Unit,
     onNavigateToRegister: () -> Unit
 ) {
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
 
     val uiState by viewModel.uiState.collectAsState()
-    LaunchedEffect(key1 = viewModel.events) {
-        viewModel.events.collect { event ->
-            if (event is AuthEvent.NavigateToHome) onNavigateToHome()
+
+    // Observa eventos de navegación únicos desde el ViewModel
+    LaunchedEffect(Unit) {
+        viewModel.events.collectLatest { event ->
+            if (event is AuthEvent.NavigateToHome) {
+                onNavigateToHome(event.userId)
+            }
         }
     }
 
@@ -88,6 +112,7 @@ fun LoginScreen(
     ) {
         Text("Bienvenido", style = MaterialTheme.typography.headlineMedium)
         Spacer(Modifier.height(24.dp))
+
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
@@ -95,16 +120,20 @@ fun LoginScreen(
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
+
         Spacer(Modifier.height(8.dp))
+
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
             label = { Text("Contraseña") },
             singleLine = true,
-            modifier = Modifier.fillMaxWidth(),
-            visualTransformation = PasswordVisualTransformation()
+            visualTransformation = PasswordVisualTransformation(),
+            modifier = Modifier.fillMaxWidth()
         )
+
         Spacer(Modifier.height(16.dp))
+
         when (uiState) {
             AuthState.Loading -> CircularProgressIndicator()
             is AuthState.Error -> Text(
@@ -117,7 +146,9 @@ fun LoginScreen(
             )
             else -> {}
         }
+
         Spacer(Modifier.height(16.dp))
+
         Button(
             onClick = { viewModel.login(email, password) },
             enabled = uiState != AuthState.Loading,
@@ -125,6 +156,7 @@ fun LoginScreen(
         ) {
             Text("Entrar")
         }
+
         TextButton(
             onClick = onNavigateToRegister,
             modifier = Modifier.fillMaxWidth()

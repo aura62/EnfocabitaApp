@@ -59,4 +59,26 @@ interface ProgresoHabitoDiarioDao {
             insertProgress(progress)
             return getProgressByHabitAndDate(progress.idHab, progress.fechaRegistro)
         }
+
+        @Query("""
+    SELECT COUNT(*) 
+    FROM progreso_habito_diario 
+    WHERE fecha_registro BETWEEN :start AND :end 
+      AND completado = 1
+      AND id_Habito IN (
+        SELECT idHabito FROM habito WHERE id_Usuario = :userId
+    )
+""")
+        suspend fun getHabitsCompletsToday(userId: Long, start: Date, end: Date): Int
+
+        @Query("""
+    SELECT COUNT(*) 
+    FROM progreso_habito_diario 
+    WHERE fecha_registro BETWEEN :start AND :end 
+      AND id_Habito IN (
+        SELECT idHabito FROM habito WHERE id_Usuario = :userId
+    )
+""")
+        suspend fun getHabitsTotalToday(userId: Long, start: Date, end: Date): Int
+
 }

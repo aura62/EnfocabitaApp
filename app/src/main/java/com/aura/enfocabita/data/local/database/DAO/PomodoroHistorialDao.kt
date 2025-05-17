@@ -40,6 +40,25 @@ interface PomodoroHistorialDao {
     @Query("SELECT * FROM pomodoro_historial WHERE idHistorial = :id LIMIT 1")
     fun observeById(id: Long): Flow<PomodoroHistorial?>
 
+    @Query("""
+    SELECT SUM(duracion_trabajo) 
+    FROM pomodoro_sesion 
+    WHERE idPomodoro IN (
+        SELECT id_pomodoro FROM pomodoro_historial 
+        WHERE fecha = :fecha
+    ) AND id_Usuario = :userId
+""")
+    suspend fun getTotalPomodoroTimeUser(userId: Long, fecha: Date): Long?
+
+    @Query("""
+    SELECT SUM(p.duracion_trabajo)
+    FROM pomodoro_historial h
+    INNER JOIN pomodoro_sesion p ON h.id_pomodoro = p.idPomodoro
+    WHERE p.id_Usuario = :userId
+      AND h.fecha BETWEEN :start AND :end
+""")
+    suspend fun getTotalPomodoroTimeInRange(userId: Long, start: Date, end: Date): Long?
+
 
     /** Inserta o reemplaza y devuelve el ID generado */
     @Insert(onConflict = OnConflictStrategy.REPLACE)

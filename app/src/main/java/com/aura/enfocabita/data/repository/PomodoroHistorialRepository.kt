@@ -28,6 +28,8 @@ interface PomodoroHistorialRepository {
     /** Cuenta cuántas sesiones hay en una fecha */
     suspend fun countSessionsByDate(date: Date): Int
 
+    suspend fun getTotalPomodoroTimeUser(userId: Long, fecha: Date): Long?
+
     /**
      * Inserta o actualiza un registro y devuelve la lista completa
      * de entradas en la misma transacción.
@@ -36,6 +38,8 @@ interface PomodoroHistorialRepository {
 
     /** Elimina un registro por su ID */
     suspend fun deleteEntryById(id: Long): Int
+
+    suspend fun getTotalPomodoroTimeInRange(userId: Long, start: Date, end: Date): Long?
 }
 
 /**
@@ -66,6 +70,10 @@ class PomodoroHistorialRepositoryImpl(
     override suspend fun saveAndFetchAll(record: PomodoroHistorial): List<PomodoroHistorial> =
         dao.upsertAndGetAll(record)
 
+    override suspend fun getTotalPomodoroTimeUser(userId: Long, fecha: Date): Long? = dao.getTotalPomodoroTimeUser(userId,fecha)
+
     override suspend fun deleteEntryById(id: Long): Int =
         dao.deleteHistorialById(id)
+
+    override suspend fun getTotalPomodoroTimeInRange(userId: Long, start: Date, end: Date): Long? = dao.getTotalPomodoroTimeInRange(userId,start,end)
 }

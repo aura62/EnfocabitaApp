@@ -6,6 +6,9 @@ import com.aura.enfocabita.domain.validation.AuthValidator
 import com.aura.enfocabita.domain.validation.AuthValidatorImpl
 import com.aura.enfocabita.domain.usecase.LoginUser
 import com.aura.enfocabita.domain.usecase.RegisterUser
+import com.aura.enfocabita.domain.usecase.inicio.GetLastActivityDateUseCase
+import com.aura.enfocabita.domain.usecase.inicio.GetTodayHabitProgressUseCase
+import com.aura.enfocabita.domain.usecase.inicio.GetTodayPomodoroTimeUseCase
 import org.koin.dsl.module
 import java.util.Date
 
@@ -34,4 +37,8 @@ val domainModule = module {
             passwordHasher = get<PasswordHasher>()    // si LoginUser recibe un PasswordHasher
         )
     }
+
+    factory { GetTodayHabitProgressUseCase(get()) }
+    factory { GetTodayPomodoroTimeUseCase(get()) }
+    factory { GetLastActivityDateUseCase(get()) }
 }

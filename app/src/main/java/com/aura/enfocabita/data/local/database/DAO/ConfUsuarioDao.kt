@@ -37,6 +37,4 @@ interface ConfUsuarioDao {
                 return getConfigForUser(conf.idUsuario)
         }
 
-
-
 }

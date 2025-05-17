@@ -102,6 +102,7 @@ dependencies {
     // en tu build.gradle (module)
     implementation(libs.androidx.material.icons.extended)
 
-
+    //Gson
+    implementation(libs.gson)
 
 }

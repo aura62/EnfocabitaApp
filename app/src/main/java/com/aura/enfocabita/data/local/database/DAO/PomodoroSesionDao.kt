@@ -3,6 +3,7 @@ package com.aura.enfocabita.data.local.database.DAO
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 import com.aura.enfocabita.data.local.database.entidades.PomodoroSesion
+import java.util.Date
 
 @Dao
 interface PomodoroSesionDao {

@@ -26,24 +26,34 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 
 /**
- * Pantalla de registro de nuevo usuario.
+ * Pantalla de registro de nuevos usuarios.
+ *
+ * Permite ingresar nombre, correo y contraseña.
+ * Al registrarse exitosamente, navega a la pantalla principal (Inicio)
+ * pasando el ID del usuario registrado.
+ *
+ * @param viewModel ViewModel encargado de manejar el estado del registro.
+ * @param onNavigateToLogin Callback para regresar a la pantalla de login.
+ * @param onNavigateToHome Callback que recibe el ID del usuario y navega a la pantalla principal.
  */
 @Composable
 fun RegisterScreen(
     viewModel: AuthViewModel = koinViewModel(),
     onNavigateToLogin: () -> Unit,
-    onNavigateToHome: @Composable (() -> Unit)
+    onNavigateToHome: (Long) -> Unit
 ) {
     var nombre by rememberSaveable { mutableStateOf("") }
     var correo by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
 
+    // Estado reactivo expuesto por el ViewModel
     val uiState by viewModel.uiState.collectAsState()
-    LaunchedEffect(key1 = viewModel.events) {
+
+    // Escucha eventos de navegación para moverse al Home tras registro exitoso
+    LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
             when (event) {
-                AuthEvent.NavigateToHome -> onNavigateToHome()
-                // Puedes manejar más eventos si los añades
+                is AuthEvent.NavigateToHome -> onNavigateToHome(event.userId)
             }
         }
     }
