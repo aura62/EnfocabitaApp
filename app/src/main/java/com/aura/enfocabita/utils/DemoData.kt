@@ -3,7 +3,8 @@ package com.aura.enfocabita.utils
 data class DemoData(
     val usuario: DemoUsuario,
     val habitos: List<DemoHabito>,
-    val progresos: List<DemoProgreso>
+    val progresos: List<DemoProgreso>,
+    val pomodoros: List<DemoPomodoro> // ✅ nuevo
 )
 
 data class DemoUsuario(
@@ -14,12 +15,26 @@ data class DemoUsuario(
 
 data class DemoHabito(
     val titulo: String,
-    val tipo: String,     // "ADQUIRIR", "MANTENER", "ABANDONAR"
+    val tipo: String,
     val frecuencia: Int,
-    val periodo: String   // "DIARIO", "SEMANAL", etc.
+    val periodo: String
 )
 
 data class DemoProgreso(
     val habitoIndex: Int,
     val completado: Boolean
+)
+
+data class DemoPomodoro(
+    val titulo: String,
+    val duracion: Long,
+    val dcorto: Long,
+    val dlargo: Long,
+    val sesiones: Int,
+    val historial: List<DemoHistorialPomodoro>
+)
+
+data class DemoHistorialPomodoro(
+    val fecha: String, // formato: "2025-05-16"
+    val hora: String   // formato: "10:00:00"
 )

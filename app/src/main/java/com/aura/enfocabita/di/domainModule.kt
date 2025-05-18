@@ -6,9 +6,8 @@ import com.aura.enfocabita.domain.validation.AuthValidator
 import com.aura.enfocabita.domain.validation.AuthValidatorImpl
 import com.aura.enfocabita.domain.usecase.LoginUser
 import com.aura.enfocabita.domain.usecase.RegisterUser
-import com.aura.enfocabita.domain.usecase.inicio.GetLastActivityDateUseCase
-import com.aura.enfocabita.domain.usecase.inicio.GetTodayHabitProgressUseCase
-import com.aura.enfocabita.domain.usecase.inicio.GetTodayPomodoroTimeUseCase
+import com.aura.enfocabita.domain.usecase.habit.*
+import com.aura.enfocabita.domain.usecase.inicio.*
 import org.koin.dsl.module
 import java.util.Date
 
@@ -41,4 +40,9 @@ val domainModule = module {
     factory { GetTodayHabitProgressUseCase(get()) }
     factory { GetTodayPomodoroTimeUseCase(get()) }
     factory { GetLastActivityDateUseCase(get()) }
+    factory { CreateHabitUseCase(get()) }
+    factory { UpdateHabitUseCase(get()) }
+    factory { DeleteHabitUseCase(get()) }
+    factory { GetHabitsByUserUseCase(get()) }
+    factory { GetHabitByIdUseCase(get()) }
 }

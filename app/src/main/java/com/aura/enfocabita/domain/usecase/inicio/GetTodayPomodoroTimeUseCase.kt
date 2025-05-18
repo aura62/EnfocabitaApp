@@ -11,8 +11,8 @@ class GetTodayPomodoroTimeUseCase(
     @RequiresApi(Build.VERSION_CODES.O)
     suspend operator fun invoke(userId: Long, fecha: Date): Long {
         val (start, end) = obtenerRangoDelDia(fecha)
-        val totalMs = pomodoroHistorialRepository.getTotalPomodoroTimeInRange(userId, start, end)
-        return totalMs!! / 60000L // Convierte a minutos
+        return (pomodoroHistorialRepository.getTotalPomodoroTimeInRange(userId, start, end) ?: 0L) / 60000L
+
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

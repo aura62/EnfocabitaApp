@@ -27,7 +27,9 @@ object DemoDataInitializer {
         usuarioRepo: UsuarioRepository,
         habitoRepo: HabitoRepository,
         progresoRepo: ProgresoHabitoDiarioRepository,
-        passwordHasher: PasswordHasher
+        passwordHasher: PasswordHasher,
+        pomodoroSesionRepo: PomodoroSesionRepository,
+        pomodoroHistorialRepo: PomodoroHistorialRepository
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -94,6 +96,36 @@ object DemoDataInitializer {
                                 idHab = habitoId,
                                 fechaRegistro = startOfToday, // ✅ ya sin hora
                                 completado = prog.completado
+                            )
+                        )
+                    }
+                }
+
+                demoData.pomodoros.forEach { pomodoroDemo ->
+                    val pomodoroId = pomodoroSesionRepo.saveSession(
+                        PomodoroSesion(
+                            idUsuario = userId,
+                            tituloTarea = pomodoroDemo.titulo,
+                            duracion_ms = pomodoroDemo.duracion,
+                            dcorto_ms = pomodoroDemo.dcorto,
+                            dLargo_ms = pomodoroDemo.dlargo,
+                            numSesiones = pomodoroDemo.sesiones,
+                            fechaCreacion = Date()
+                        )
+                    )
+
+                    // Historial
+                    pomodoroDemo.historial.forEach { registro ->
+                        val fechaHora = "${registro.fecha}T${registro.hora}"
+                        val instant = java.time.LocalDateTime.parse(fechaHora)
+                            .atZone(java.time.ZoneId.systemDefault())
+                            .toInstant()
+
+                        pomodoroHistorialRepo.saveAndFetchAll(
+                            PomodoroHistorial(
+                                idPomodoro = pomodoroId,
+                                fecha = Date.from(instant),
+                                horaInicio = Date.from(instant)
                             )
                         )
                     }

@@ -25,6 +25,7 @@ lifecycle        = "2.9.0"
 datastore        = "1.1.6"
 security-crypto  = "1.1.0-alpha07"
 ui-tooling       = "1.8.1"
+foundationAndroid = "1.7.2"
 
 
 [libraries]
@@ -70,6 +71,7 @@ androidx-datastore-preferences = { module = "androidx.datastore:datastore-prefer
 
 # Jetpack Security para cifrado
 androidx-security-crypto = { module = "androidx.security:security-crypto", version.ref = "security-crypto" }
+androidx-foundation-android = { group = "androidx.compose.foundation", name = "foundation-android", version.ref = "foundationAndroid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

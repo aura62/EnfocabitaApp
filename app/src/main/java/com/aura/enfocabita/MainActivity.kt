@@ -1,30 +1,30 @@
 package com.aura.enfocabita
 
+import android.os.Build
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.navigation.compose.rememberNavController
 import com.aura.enfocabita.presentation.home.HomeNavGraph
-import com.aura.enfocabita.di.databaseModule
-import com.aura.enfocabita.di.domainModule
-import com.aura.enfocabita.di.repositoryModule
-import com.aura.enfocabita.di.viewModelModule
 import com.aura.enfocabita.presentation.auth.AuthNavGraph
 import com.aura.enfocabita.ui.theme.EnfocabitaTheme
-import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.ext.android.getViewModel
-import org.koin.core.context.startKoin
 
 /**
  * Actividad principal de la aplicación. Inicia Koin y define
  * el punto de entrada para la UI según el estado de autenticación del usuario.
  */
 
+
 class MainActivity : ComponentActivity() {
+    @ExperimentalMaterial3Api
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

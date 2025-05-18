@@ -4,6 +4,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 
 @Composable
@@ -13,17 +14,20 @@ fun BottomNavigationBar(navController: NavController) {
     NavigationBar {
         HomeDestination.items.forEach { destination ->
             NavigationBarItem(
-                selected = currentRoute == destination.route,
+                selected = currentRoute?.startsWith(destination.route) == true,
                 onClick = {
-                    if (currentRoute != destination.route) {
+                    if (currentRoute?.startsWith(destination.route) != true) {
                         navController.navigate(destination.route) {
-                            popUpTo(HomeDestination.Inicio.route) { inclusive = false }
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
                             launchSingleTop = true
+                            restoreState = true
                         }
                     }
                 },
                 label = { Text(destination.label) },
-                icon = { Icon(androidx.compose.material.icons.Icons.Default.Home, contentDescription = destination.label) }
+                icon = { Icon(destination.icon, contentDescription = destination.label) }
             )
         }
     }
