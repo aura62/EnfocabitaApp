@@ -8,6 +8,8 @@ import com.aura.enfocabita.domain.usecase.LoginUser
 import com.aura.enfocabita.domain.usecase.RegisterUser
 import com.aura.enfocabita.domain.usecase.habit.*
 import com.aura.enfocabita.domain.usecase.inicio.*
+import com.aura.enfocabita.domain.usecase.pomodoro.*
+import com.aura.enfocabita.presentation.pomodoro.GetPomodoroSessionByIdUseCase
 import org.koin.dsl.module
 import java.util.Date
 
@@ -37,12 +39,23 @@ val domainModule = module {
         )
     }
 
+    // 📆 Inicio
     factory { GetTodayHabitProgressUseCase(get()) }
     factory { GetTodayPomodoroTimeUseCase(get()) }
     factory { GetLastActivityDateUseCase(get()) }
+
+    // 📋 Hábitos
     factory { CreateHabitUseCase(get()) }
     factory { UpdateHabitUseCase(get()) }
     factory { DeleteHabitUseCase(get()) }
     factory { GetHabitsByUserUseCase(get()) }
     factory { GetHabitByIdUseCase(get()) }
+
+
+    // ⏱ Pomodoro
+    factory { CreatePomodoroSessionUseCase(get()) }
+    factory { GetPomodoroSessionsByUserUseCase(get()) }
+    factory { UpdatePomodoroSessionUseCase(get()) }
+    factory { DeletePomodoroSessionUseCase(get()) }
+    factory { GetPomodoroSessionByIdUseCase(get()) }
 }

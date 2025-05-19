@@ -21,9 +21,13 @@ import androidx.navigation.compose.navigation
 import com.aura.enfocabita.presentation.habit.HabitoDestinos
 import com.aura.enfocabita.presentation.habit.habitNavGraph
 import com.aura.enfocabita.presentation.inicio.InicioViewModel
+import com.aura.enfocabita.presentation.pomodoro.PomodoroDestination
+import com.aura.enfocabita.presentation.pomodoro.pomodoroNavGraph
 
 // Gráfico de navegación principal que contiene todas las pantallas accesibles después del login
 // Importa otras pantallas...
+
+import com.aura.enfocabita.presentation.pomodoro.pomodoroNavGraph
 
 @ExperimentalMaterial3Api
 @RequiresApi(Build.VERSION_CODES.O)
@@ -45,37 +49,36 @@ fun HomeNavGraph(
         ) {
             // INICIO
             composable(HomeDestination.Inicio.route) {
-                InicioScreen(
-                    userId = userId,
-                    viewModel = inicioViewModel
-                )
+                InicioScreen(userId = userId, viewModel = inicioViewModel)
             }
 
-            // HABITOS (único y correcto)
+            // HABITOS
             navigation(
                 startDestination = HabitoDestinos.Lista.ruta,
-                route = HomeDestination.Habitos.route // "habitos"
+                route = HomeDestination.Habitos.route
             ) {
                 habitNavGraph(userId = userId, navController = navController)
             }
 
-            composable(HomeDestination.Pomodoro.route) {
-                PlaceholderScreen("Pomodoro")
+            // POMODORO
+            navigation(
+                startDestination = PomodoroDestination.Lista.ruta,
+                route = HomeDestination.Pomodoro.route
+            ) {
+                pomodoroNavGraph(userId = userId, navController = navController)
             }
 
+            // PLACEHOLDERS
             composable(HomeDestination.Calendario.route) {
                 PlaceholderScreen("Calendario")
             }
-
             composable(HomeDestination.Estadisticas.route) {
                 PlaceholderScreen("Estadísticas")
             }
-
             composable(HomeDestination.Configuracion.route) {
                 PlaceholderScreen("Configuración")
             }
         }
-
     }
 }
 
