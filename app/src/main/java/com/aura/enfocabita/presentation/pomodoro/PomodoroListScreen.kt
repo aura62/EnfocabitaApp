@@ -28,6 +28,8 @@ fun PomodoroListScreen(
     val isLoading by viewModel.isLoading.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
 
+    var sesionActiva by remember { mutableStateOf<PomodoroSesion?>(null) }
+
     LaunchedEffect(Unit) {
         viewModel.observarSesiones(userId)
         viewModel.mensajeError.collect { snackbarHostState.showSnackbar(it) }
@@ -47,7 +49,17 @@ fun PomodoroListScreen(
             if (isLoading) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             } else {
-                PomodoroList(sesiones = sesiones, onEditar = onEditar)
+                PomodoroList(
+                    sesiones = sesiones,
+                    onEditar = onEditar,
+                    onIniciar = { sesionActiva = it }
+                )
+            }
+        }
+
+        sesionActiva?.let {
+            SimplePomodoroTimerDialog(sesion = it) {
+                sesionActiva = null
             }
         }
     }
@@ -56,7 +68,8 @@ fun PomodoroListScreen(
 @Composable
 fun PomodoroList(
     sesiones: List<PomodoroSesion>,
-    onEditar: (Long) -> Unit
+    onEditar: (Long) -> Unit,
+    onIniciar: (PomodoroSesion) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -68,11 +81,19 @@ fun PomodoroList(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 4.dp)
-                    .clickable { onEditar(sesion.idPomodoro) }
             ) {
                 Column(Modifier.padding(16.dp)) {
-                    Text(text = sesion.tituloTarea, style = MaterialTheme.typography.titleMedium)
+                    Text(sesion.tituloTarea, style = MaterialTheme.typography.titleMedium)
                     Text("Trabajo: ${sesion.duracion_ms / 60000} min | Sesiones: ${sesion.numSesiones}")
+
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Button(onClick = { onEditar(sesion.idPomodoro) }) {
+                            Text("Editar")
+                        }
+                        OutlinedButton(onClick = { onIniciar(sesion) }) {
+                            Text("Iniciar")
+                        }
+                    }
                 }
             }
         }
