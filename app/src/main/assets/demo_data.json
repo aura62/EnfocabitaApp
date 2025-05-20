@@ -1,0 +1,50 @@
+{
+  "usuario": {
+    "nombre": "Usuario Demo",
+    "correo": "demo@correo.com",
+    "password": "demo1234"
+  },
+  "habitos": [
+    {
+      "titulo": "Leer 20 minutos",
+      "tipo": "ADQUIRIR",
+      "frecuencia": 1,
+      "periodo": "DIARIO"
+    },
+    {
+      "titulo": "Ejercicio físico",
+      "tipo": "MANTENER",
+      "frecuencia": 3,
+      "periodo": "SEMANAL"
+    }
+  ],
+  "progresos": [
+    {
+      "habitoIndex": 0,
+      "completado": true
+    },
+    {
+      "habitoIndex": 1,
+      "completado": false
+    }
+  ],
+  "pomodoros": [
+    {
+      "titulo": "Estudiar Kotlin",
+      "duracion": 1500000,
+      "dcorto": 300000,
+      "dlargo": 900000,
+      "sesiones": 2,
+      "historial": [
+        {
+          "fecha": "2025-05-16",
+          "hora": "10:00:00"
+        },
+        {
+          "fecha": "2025-05-16",
+          "hora": "11:00:00"
+        }
+      ]
+    }
+  ]
+}

@@ -1,11 +1,15 @@
 package com.aura.enfocabita.presentation.pomodoro
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aura.enfocabita.data.local.database.entidades.PomodoroSesion
 import com.aura.enfocabita.domain.usecase.pomodoro.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import com.aura.enfocabita.domain.usecase.pomodoro.PomodoroFase
 
 class PomodoroViewModel(
     private val createSession: CreatePomodoroSessionUseCase,
@@ -26,6 +30,9 @@ class PomodoroViewModel(
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
+
+    var faseActual by mutableStateOf<PomodoroFase>(PomodoroFase.Trabajo(1))
+
 
     fun observarSesiones(userId: Long) {
         viewModelScope.launch {
@@ -71,4 +78,5 @@ class PomodoroViewModel(
     suspend fun cargarSesionPorId(id: Long): PomodoroSesion? {
         return getSessionById(id)
     }
+
 }

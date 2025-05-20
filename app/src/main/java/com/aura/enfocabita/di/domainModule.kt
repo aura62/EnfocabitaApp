@@ -9,7 +9,7 @@ import com.aura.enfocabita.domain.usecase.RegisterUser
 import com.aura.enfocabita.domain.usecase.habit.*
 import com.aura.enfocabita.domain.usecase.inicio.*
 import com.aura.enfocabita.domain.usecase.pomodoro.*
-import com.aura.enfocabita.presentation.pomodoro.GetPomodoroSessionByIdUseCase
+import com.aura.enfocabita.domain.usecase.pomodoro.GetPomodoroSessionByIdUseCase
 import org.koin.dsl.module
 import java.util.Date
 
