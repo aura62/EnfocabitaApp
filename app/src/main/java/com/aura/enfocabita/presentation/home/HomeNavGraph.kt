@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.navigation
+import com.aura.enfocabita.presentation.auth.AuthViewModel
 import com.aura.enfocabita.presentation.configuration.ConfigurationScreen
 import com.aura.enfocabita.presentation.habit.HabitoDestinos
 import com.aura.enfocabita.presentation.habit.habitNavGraph
@@ -29,6 +30,7 @@ import com.aura.enfocabita.presentation.pomodoro.pomodoroNavGraph
 // Importa otras pantallas...
 
 import com.aura.enfocabita.presentation.pomodoro.pomodoroNavGraph
+import org.koin.compose.viewmodel.koinViewModel
 
 @ExperimentalMaterial3Api
 @RequiresApi(Build.VERSION_CODES.O)
@@ -78,8 +80,10 @@ fun HomeNavGraph(
             }
 
             composable(HomeDestination.Configuracion.route) {
-                ConfigurationScreen()
+                val authViewModel: AuthViewModel = koinViewModel()
+                ConfigurationScreen(navController = navController, authViewModel = authViewModel)
             }
+
         }
     }
 }
@@ -93,4 +97,6 @@ fun PlaceholderScreen(nombre: String) {
     ) {
         Text("Pantalla: $nombre", style = MaterialTheme.typography.headlineMedium)
     }
+
+
 }

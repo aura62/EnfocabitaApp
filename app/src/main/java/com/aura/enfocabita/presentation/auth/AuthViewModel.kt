@@ -33,6 +33,9 @@ class AuthViewModel(
     private val _events = MutableSharedFlow<AuthEvent>()
     val events: SharedFlow<AuthEvent> = _events.asSharedFlow()
 
+    private val _sesionActiva = MutableStateFlow<Long?>(null)
+    val sesionActiva: StateFlow<Long?> = _sesionActiva
+
     /**
      * Inicia el registro de un nuevo usuario.
      * En caso de éxito, emite el evento de navegación a Home.
@@ -72,6 +75,17 @@ class AuthViewModel(
             } catch (t: Throwable) {
                 _uiState.value = AuthState.Error("Error inesperado")
             }
+        }
+    }
+
+    fun iniciarSesion(userId: Long) {
+        _sesionActiva.value = userId
+    }
+
+    fun cerrarSesion() {
+        viewModelScope.launch {
+            _sesionActiva.value = null
+            _events.emit(AuthEvent.NavigateToLogin)
         }
     }
 }

@@ -16,4 +16,5 @@ sealed class AuthEvent {
      * @param userId ID del usuario autenticado, necesario para cargar sus datos.
      */
     data class NavigateToHome(val userId: Long) : AuthEvent()
+    object NavigateToLogin : AuthEvent() // Nuevo evento
 }

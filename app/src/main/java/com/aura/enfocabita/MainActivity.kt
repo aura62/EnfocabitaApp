@@ -8,13 +8,17 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.navigation.compose.rememberNavController
 import com.aura.enfocabita.presentation.home.HomeNavGraph
 import com.aura.enfocabita.presentation.auth.AuthNavGraph
+import com.aura.enfocabita.presentation.auth.AuthViewModel
+import com.aura.enfocabita.presentation.inicio.InicioViewModel
 import com.aura.enfocabita.ui.theme.EnfocabitaTheme
 import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  * Actividad principal de la aplicación. Inicia Koin y define
@@ -23,35 +27,34 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 
 class MainActivity : ComponentActivity() {
+
     @ExperimentalMaterial3Api
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val authViewModel: AuthViewModel by viewModel()
 
-
-        // 2. Carga el tema y define la navegación inicial (Auth → Home)
         setContent {
             EnfocabitaTheme {
                 val navController = rememberNavController()
-                var userId by remember { mutableStateOf<Long?>(null) }
+                val userIdState by authViewModel.sesionActiva.collectAsState()
+                val currentUserId = userIdState // ✅ Copia segura
 
-                if (userId == null) {
+                if (currentUserId == null) {
                     AuthNavGraph(
                         onNavigateToHome = { id ->
-                            userId = id
+                            authViewModel.iniciarSesion(id)
                         }
                     )
                 } else {
                     HomeNavGraph(
                         navController = navController,
-                        userId = userId!!,
-                        inicioViewModel = getViewModel()
+                        userId = currentUserId,
+                        inicioViewModel = getViewModel<InicioViewModel>()
                     )
                 }
             }
         }
-
     }
-
-    }
+}

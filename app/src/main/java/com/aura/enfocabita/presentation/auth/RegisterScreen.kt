@@ -54,6 +54,7 @@ fun RegisterScreen(
         viewModel.events.collect { event ->
             when (event) {
                 is AuthEvent.NavigateToHome -> onNavigateToHome(event.userId)
+                AuthEvent.NavigateToLogin -> onNavigateToHome
             }
         }
     }
