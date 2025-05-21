@@ -27,7 +27,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class MainActivity : ComponentActivity() {
-
     @ExperimentalMaterial3Api
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,21 +37,24 @@ class MainActivity : ComponentActivity() {
         setContent {
             EnfocabitaTheme {
                 val navController = rememberNavController()
-                val userIdState by authViewModel.sesionActiva.collectAsState()
-                val currentUserId = userIdState // ✅ Copia segura
+                val userId by authViewModel.sesionActiva.collectAsState()
+                val currenUser = userId
 
-                if (currentUserId == null) {
+                if (userId == null) {
                     AuthNavGraph(
                         onNavigateToHome = { id ->
                             authViewModel.iniciarSesion(id)
                         }
                     )
                 } else {
-                    HomeNavGraph(
-                        navController = navController,
-                        userId = currentUserId,
-                        inicioViewModel = getViewModel<InicioViewModel>()
-                    )
+                    currenUser?.toLong()?.let {
+                        HomeNavGraph(
+                            navController = navController,
+                            userId = it,
+                            inicioViewModel = getViewModel(),
+                            authViewModel = authViewModel // ✔️ Se pasa directamente
+                        )
+                    }
                 }
             }
         }

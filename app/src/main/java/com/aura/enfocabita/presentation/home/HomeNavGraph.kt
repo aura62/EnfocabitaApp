@@ -29,16 +29,14 @@ import com.aura.enfocabita.presentation.pomodoro.pomodoroNavGraph
 // Gráfico de navegación principal que contiene todas las pantallas accesibles después del login
 // Importa otras pantallas...
 
-import com.aura.enfocabita.presentation.pomodoro.pomodoroNavGraph
-import org.koin.compose.viewmodel.koinViewModel
-
 @ExperimentalMaterial3Api
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HomeNavGraph(
     navController: NavHostController,
     userId: Long,
-    inicioViewModel: InicioViewModel
+    inicioViewModel: InicioViewModel,
+    authViewModel: AuthViewModel // ✔️ Se recibe aquí
 ) {
     Scaffold(
         bottomBar = {
@@ -50,12 +48,10 @@ fun HomeNavGraph(
             startDestination = HomeDestination.Inicio.route,
             modifier = Modifier.padding(innerPadding)
         ) {
-            //ruta INICIO
             composable(HomeDestination.Inicio.route) {
                 InicioScreen(userId = userId, viewModel = inicioViewModel)
             }
 
-            //ruta HABITOS
             navigation(
                 startDestination = HabitoDestinos.Lista.ruta,
                 route = HomeDestination.Habitos.route
@@ -63,7 +59,6 @@ fun HomeNavGraph(
                 habitNavGraph(userId = userId, navController = navController)
             }
 
-            //ruta POMODORO
             navigation(
                 startDestination = PomodoroDestination.Lista.ruta,
                 route = HomeDestination.Pomodoro.route
@@ -71,19 +66,20 @@ fun HomeNavGraph(
                 pomodoroNavGraph(userId = userId, navController = navController)
             }
 
-            //ruta calendario
             composable(HomeDestination.Calendario.route) {
                 PlaceholderScreen("Calendario")
             }
+
             composable(HomeDestination.Estadisticas.route) {
                 PlaceholderScreen("Estadísticas")
             }
 
             composable(HomeDestination.Configuracion.route) {
-                val authViewModel: AuthViewModel = koinViewModel()
-                ConfigurationScreen(navController = navController, authViewModel = authViewModel)
+                ConfigurationScreen(
+                    navController = navController,
+                    authViewModel = authViewModel // ✔️ Se pasa el mismo ViewModel
+                )
             }
-
         }
     }
 }

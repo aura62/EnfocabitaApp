@@ -11,31 +11,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import com.aura.enfocabita.presentation.auth.AuthEvent
+import androidx.navigation.NavHostController
 import com.aura.enfocabita.presentation.auth.AuthViewModel
-import kotlinx.coroutines.flow.collectLatest
-import org.koin.compose.viewmodel.koinViewModel
 
 @ExperimentalMaterial3Api
 @Composable
 fun ConfigurationScreen(
-    navController: NavController,
-    authViewModel: AuthViewModel
+    authViewModel: AuthViewModel,
+    navController: NavHostController
 ) {
-    val sesionActiva by authViewModel.sesionActiva.collectAsState()
-
-    // Redirigir si no hay sesión activa
-    LaunchedEffect(Unit) {
-        authViewModel.events.collectLatest { event ->
-            if (event is AuthEvent.NavigateToLogin) {
-                navController.navigate("login") {
-                    popUpTo(0) { inclusive = true }
-                }
-            }
-        }
-    }
-
     Scaffold(
         topBar = {
             TopAppBar(title = { Text("Configuración") })
@@ -63,9 +47,21 @@ fun ConfigurationScreen(
             )
 
             ConfigItem(
-                icon = Icons.Default.Alarm,
-                label = "Duración predeterminada de Pomodoro",
-                onClick = { /* Abrir selector de duración */ }
+                icon = Icons.Default.Lock,
+                label = "Privacidad",
+                onClick = { /* Lógica futura */ }
+            )
+
+            ConfigItem(
+                icon = Icons.Default.Description,
+                label = "Licencia",
+                onClick = { /* Lógica futura */ }
+            )
+
+            ConfigItem(
+                icon = Icons.Default.QuestionMark,
+                label = "Ayuda",
+                onClick = { /* Lógica futura */ }
             )
 
             Divider()
