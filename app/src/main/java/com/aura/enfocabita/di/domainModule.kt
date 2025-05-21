@@ -61,5 +61,4 @@ val domainModule = module {
 
     //configuracion
 
-
 }

@@ -12,6 +12,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import com.aura.enfocabita.data.repository.PomodoroSesionRepository
 import com.aura.enfocabita.data.repository.PomodoroHistorialRepository
+import com.aura.enfocabita.di.preferencesModule
 
 class EnfocabitaApp : Application() {
     @RequiresApi(Build.VERSION_CODES.O)
@@ -25,7 +26,8 @@ class EnfocabitaApp : Application() {
                     databaseModule,
                     repositoryModule,
                     domainModule,
-                    viewModelModule
+                    viewModelModule,
+                    preferencesModule
                 )
             )
         }

@@ -15,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.aura.enfocabita.presentation.home.HomeNavGraph
 import com.aura.enfocabita.presentation.auth.AuthNavGraph
 import com.aura.enfocabita.presentation.auth.AuthViewModel
+import com.aura.enfocabita.presentation.configuration.ConfigurationViewModel
 import com.aura.enfocabita.presentation.inicio.InicioViewModel
 import com.aura.enfocabita.ui.theme.EnfocabitaTheme
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -35,7 +36,10 @@ class MainActivity : ComponentActivity() {
         val authViewModel: AuthViewModel by viewModel()
 
         setContent {
-            EnfocabitaTheme {
+            val configViewModel: ConfigurationViewModel by viewModel()
+            val isDarkMode by configViewModel.isDarkMode.collectAsState(initial = false)
+
+            EnfocabitaTheme(darkTheme = isDarkMode){
                 val navController = rememberNavController()
                 val userId by authViewModel.sesionActiva.collectAsState()
                 val currenUser = userId

@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.aura.enfocabita.presentation.auth.AuthViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 @ExperimentalMaterial3Api
 @Composable
@@ -20,6 +21,10 @@ fun ConfigurationScreen(
     authViewModel: AuthViewModel,
     navController: NavHostController
 ) {
+    val configViewModel: ConfigurationViewModel = koinViewModel()
+    val isDarkMode by configViewModel.isDarkMode.collectAsState(initial = false)
+    val notificaciones by configViewModel.notificacionesActivas.collectAsState()
+
     Scaffold(
         topBar = {
             TopAppBar(title = { Text("Configuración") })
@@ -34,16 +39,18 @@ fun ConfigurationScreen(
         ) {
             Text("Preferencias", style = MaterialTheme.typography.titleMedium)
 
-            ConfigItem(
+            ConfigItemSwitch(
                 icon = Icons.Default.DarkMode,
                 label = "Modo oscuro",
-                onClick = { /* Aquí puedes mostrar un switch o modal */ }
+                checked = isDarkMode,
+                onCheckedChange = { configViewModel.cambiarModoOscuro(it) }
             )
 
-            ConfigItem(
+            ConfigItemSwitch(
                 icon = Icons.Default.Notifications,
                 label = "Notificaciones",
-                onClick = { /* Lógica futura */ }
+                checked = notificaciones,
+                onCheckedChange = { configViewModel.cambiarNotificacionesActivas(it) }
             )
 
             ConfigItem(
@@ -95,5 +102,25 @@ fun ConfigItem(
         Icon(icon, contentDescription = null, tint = color)
         Spacer(modifier = Modifier.width(16.dp))
         Text(label, style = MaterialTheme.typography.bodyLarge)
+    }
+}
+
+@Composable
+fun ConfigItemSwitch(
+    icon: ImageVector,
+    label: String,
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(icon, contentDescription = null)
+        Spacer(modifier = Modifier.width(16.dp))
+        Text(label, modifier = Modifier.weight(1f))
+        Switch(checked = checked, onCheckedChange = onCheckedChange)
     }
 }

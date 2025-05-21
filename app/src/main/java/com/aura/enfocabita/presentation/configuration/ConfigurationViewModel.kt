@@ -3,20 +3,32 @@ package com.aura.enfocabita.presentation.configuration
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aura.enfocabita.data.local.preferences.DarkThemePreferences
+import com.aura.enfocabita.data.local.preferences.PreferenceManager
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class ConfigurationViewModel(
-    private val darkPrefs: DarkThemePreferences
-) : ViewModel() {
+class ConfigurationViewModel(private val preferences: PreferenceManager) : ViewModel() {
 
-    val isDarkMode = darkPrefs.isDarkMode
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+    private val _notificacionesActivas = preferences.notificacionesActivas.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(5000),
+        true
+    )
 
-    fun toggleDarkMode(enabled: Boolean) {
+    val notificacionesActivas: StateFlow<Boolean> = _notificacionesActivas
+    val isDarkMode = preferences.isDarkMode
+
+    fun cambiarNotificacionesActivas(activo: Boolean) {
         viewModelScope.launch {
-            darkPrefs.setDarkMode(enabled)
+            preferences.setNotificacionesActivas(activo)
+        }
+    }
+
+    fun cambiarModoOscuro(activo: Boolean) {
+        viewModelScope.launch {
+            preferences.guardarModoOscuro(activo)
         }
     }
 }
