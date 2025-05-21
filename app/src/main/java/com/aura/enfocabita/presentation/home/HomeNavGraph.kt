@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.navigation
+import com.aura.enfocabita.presentation.configuration.ConfigurationScreen
 import com.aura.enfocabita.presentation.habit.HabitoDestinos
 import com.aura.enfocabita.presentation.habit.habitNavGraph
 import com.aura.enfocabita.presentation.inicio.InicioViewModel
@@ -47,12 +48,12 @@ fun HomeNavGraph(
             startDestination = HomeDestination.Inicio.route,
             modifier = Modifier.padding(innerPadding)
         ) {
-            // INICIO
+            //ruta INICIO
             composable(HomeDestination.Inicio.route) {
                 InicioScreen(userId = userId, viewModel = inicioViewModel)
             }
 
-            // HABITOS
+            //ruta HABITOS
             navigation(
                 startDestination = HabitoDestinos.Lista.ruta,
                 route = HomeDestination.Habitos.route
@@ -60,7 +61,7 @@ fun HomeNavGraph(
                 habitNavGraph(userId = userId, navController = navController)
             }
 
-            // POMODORO
+            //ruta POMODORO
             navigation(
                 startDestination = PomodoroDestination.Lista.ruta,
                 route = HomeDestination.Pomodoro.route
@@ -68,15 +69,16 @@ fun HomeNavGraph(
                 pomodoroNavGraph(userId = userId, navController = navController)
             }
 
-            // PLACEHOLDERS
+            //ruta calendario
             composable(HomeDestination.Calendario.route) {
                 PlaceholderScreen("Calendario")
             }
             composable(HomeDestination.Estadisticas.route) {
                 PlaceholderScreen("Estadísticas")
             }
+
             composable(HomeDestination.Configuracion.route) {
-                PlaceholderScreen("Configuración")
+                ConfigurationScreen()
             }
         }
     }

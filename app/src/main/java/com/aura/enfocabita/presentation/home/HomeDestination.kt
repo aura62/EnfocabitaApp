@@ -18,8 +18,8 @@ sealed class HomeDestination(
     object Habitos : HomeDestination("habitos", "Hábitos", Icons.Filled.CheckCircle)
     object Pomodoro : HomeDestination("pomodoro", "Pomodoro", Icons.Filled.AccessTimeFilled)
     object Calendario : HomeDestination("calendario", "Calendario", Icons.Filled.CalendarToday)
-    object Estadisticas : HomeDestination("estadisticas", "Estadísticas", Icons.Filled.BarChart)
-    object Configuracion : HomeDestination("configuracion", "Configuración", Icons.Filled.AccountCircle)
+    object Estadisticas : HomeDestination("estadisticas", "Progreso", Icons.Filled.BarChart)
+    object Configuracion : HomeDestination("configuracion", "Ajustes", Icons.Filled.AccountCircle)
 
     companion object {
         val items = listOf(Inicio, Habitos, Pomodoro, Calendario, Estadisticas, Configuracion)

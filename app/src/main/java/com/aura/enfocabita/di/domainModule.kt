@@ -58,4 +58,8 @@ val domainModule = module {
     factory { UpdatePomodoroSessionUseCase(get()) }
     factory { DeletePomodoroSessionUseCase(get()) }
     factory { GetPomodoroSessionByIdUseCase(get()) }
+
+    //configuracion
+
+
 }
