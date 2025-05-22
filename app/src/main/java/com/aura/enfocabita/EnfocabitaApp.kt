@@ -41,7 +41,7 @@ class EnfocabitaApp : Application() {
                 progresoRepo = org.koin.core.context.GlobalContext.get().get(),
                 passwordHasher = org.koin.core.context.GlobalContext.get().get(),
                 pomodoroSesionRepo = org.koin.core.context.GlobalContext.get().get(),
-                pomodoroHistorialRepo = org.koin.core.context.GlobalContext.get().get()
+                pomodoroHistorialRepo = org.koin.core.context.GlobalContext.get().get(),
             )
         }
     }

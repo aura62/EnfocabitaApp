@@ -1,6 +1,7 @@
 package com.aura.enfocabita.di
 
 import com.aura.enfocabita.presentation.auth.AuthViewModel
+import com.aura.enfocabita.presentation.calendar.CalendarViewModel
 import com.aura.enfocabita.presentation.configuration.ConfigurationViewModel
 import com.aura.enfocabita.presentation.habit.HabitViewModel
 import com.aura.enfocabita.presentation.inicio.InicioViewModel
@@ -14,5 +15,6 @@ val viewModelModule = module {
     viewModel { HabitViewModel(get(), get(), get(), get(),get(), get()) }
     viewModel { PomodoroViewModel(get(), get(), get(), get(), get()) }
     viewModel { ConfigurationViewModel(get()) }
+    viewModel { CalendarViewModel(get(), get()) }
 
 }
