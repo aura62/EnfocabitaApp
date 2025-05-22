@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
+import com.aura.enfocabita.data.local.database.entidades.Habito
 import com.aura.enfocabita.data.local.database.entidades.ProgresoHabitoDiario
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
@@ -51,6 +52,21 @@ interface ProgresoHabitoDiarioDao {
                 end: Date
         ): ProgresoHabitoDiario?
 
+        @Query("""
+    SELECT DISTINCT fecha_registro
+    FROM progreso_habito_diario
+    WHERE id_Habito IN (
+        SELECT idHabito FROM habito WHERE id_Usuario = :userId
+    )
+    AND completado = 1
+    AND fecha_registro BETWEEN :startDate AND :endDate
+""")
+        suspend fun getDatesHabitsComplete(
+                userId: Long,
+                startDate: Date,
+                endDate: Date
+        ): List<Date>
+
 
         /** Inserta o reemplaza, devolviendo el ID generado */
         @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -83,6 +99,16 @@ interface ProgresoHabitoDiarioDao {
     )
 """)
         suspend fun getHabitsCompletsToday(userId: Long, start: Date, end: Date): Int
+
+        @Query("""
+    SELECT h.* FROM progreso_habito_diario p
+    INNER JOIN habito h ON h.idHabito = p.id_Habito
+    WHERE p.completado = 1
+    AND p.fecha_registro BETWEEN :start AND :end
+    AND h.id_Usuario = :userId
+""")
+        suspend fun getCompletedHabitsByDate(userId: Long, start: Date, end: Date): List<Habito>
+
 
         @Query("""
     SELECT COUNT(*) 

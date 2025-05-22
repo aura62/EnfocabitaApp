@@ -56,7 +56,7 @@ class MainActivity : ComponentActivity() {
                             navController = navController,
                             userId = it,
                             inicioViewModel = getViewModel(),
-                            authViewModel = authViewModel // ✔️ Se pasa directamente
+                            authViewModel = authViewModel
                         )
                     }
                 }

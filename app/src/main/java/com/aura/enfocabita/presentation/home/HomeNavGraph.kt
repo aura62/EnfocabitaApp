@@ -25,6 +25,7 @@ import com.aura.enfocabita.presentation.habit.habitNavGraph
 import com.aura.enfocabita.presentation.inicio.InicioViewModel
 import com.aura.enfocabita.presentation.pomodoro.PomodoroDestination
 import com.aura.enfocabita.presentation.pomodoro.pomodoroNavGraph
+import com.aura.enfocabita.presentation.calendar.CalendarScreen
 
 // Gráfico de navegación principal que contiene todas las pantallas accesibles después del login
 // Importa otras pantallas...
@@ -67,7 +68,7 @@ fun HomeNavGraph(
             }
 
             composable(HomeDestination.Calendario.route) {
-                PlaceholderScreen("Calendario")
+                CalendarScreen(userId = userId)
             }
 
             composable(HomeDestination.Estadisticas.route) {

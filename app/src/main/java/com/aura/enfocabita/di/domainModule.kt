@@ -6,6 +6,8 @@ import com.aura.enfocabita.domain.validation.AuthValidator
 import com.aura.enfocabita.domain.validation.AuthValidatorImpl
 import com.aura.enfocabita.domain.usecase.LoginUser
 import com.aura.enfocabita.domain.usecase.RegisterUser
+import com.aura.enfocabita.domain.usecase.calendar.GetCompletedDatesUseCase
+import com.aura.enfocabita.domain.usecase.calendar.GetCompletedHabitsForDateUseCase
 import com.aura.enfocabita.domain.usecase.habit.*
 import com.aura.enfocabita.domain.usecase.inicio.*
 import com.aura.enfocabita.domain.usecase.pomodoro.*
@@ -61,5 +63,9 @@ val domainModule = module {
     factory { GetPomodoroSessionByIdUseCase(get()) }
 
     //configuracion
+
+    //calendario
+    factory { GetCompletedDatesUseCase(get()) }
+    factory { GetCompletedHabitsForDateUseCase(get()) }
 
 }
