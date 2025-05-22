@@ -104,11 +104,10 @@ fun FormHabitScreen(
                         checked = completadoHoy,
                         onCheckedChange = { isChecked ->
                             completadoHoy = isChecked
-                            coroutineScope.launch {
-                                viewModel.estaCompletadoHoy(habitoExistente.idHabito)
-                            }
+                            viewModel.actualizarEstadoHabito(habitoExistente.idHabito, isChecked)
                         }
                     )
+
                     Text("Marcar como completado hoy")
                 }
             }

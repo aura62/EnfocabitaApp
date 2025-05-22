@@ -18,7 +18,7 @@ import java.util.Date
             onDelete = ForeignKey.CASCADE
         )
     ],
-    indices = [Index(value = ["id_Habito"]), Index(value = ["fecha_registro"])]
+    indices = [Index(value = ["id_Habito"]), Index(value = ["fecha_registro"], unique = true)]
 )
 @TypeConverters(ConvertType::class)
 data class ProgresoHabitoDiario(
