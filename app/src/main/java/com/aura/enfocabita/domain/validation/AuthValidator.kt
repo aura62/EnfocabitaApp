@@ -13,4 +13,6 @@ interface AuthValidator {
 
     @Throws(WeakPasswordException::class)
     fun validatePassword(password: String)
+
+    fun validName(nombre: String): Boolean
 }

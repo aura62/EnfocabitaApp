@@ -50,6 +50,7 @@ val domainModule = module {
     factory { DeleteHabitUseCase(get()) }
     factory { GetHabitsByUserUseCase(get()) }
     factory { GetHabitByIdUseCase(get()) }
+    factory { ToggleHabitCompletionUseCase(get()) }
 
 
     // ⏱ Pomodoro

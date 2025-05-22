@@ -11,7 +11,7 @@ import org.koin.dsl.module
 val viewModelModule = module {
     viewModel { AuthViewModel(get(), get()) }
     viewModel { InicioViewModel(get(), get(), get()) }
-    viewModel { HabitViewModel(get(), get(), get(), get(),get()) }
+    viewModel { HabitViewModel(get(), get(), get(), get(),get(), get()) }
     viewModel { PomodoroViewModel(get(), get(), get(), get(), get()) }
     viewModel { ConfigurationViewModel(get()) }
 

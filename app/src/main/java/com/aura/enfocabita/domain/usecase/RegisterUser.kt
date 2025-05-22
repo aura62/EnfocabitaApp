@@ -4,7 +4,9 @@ import android.database.sqlite.SQLiteException
 import com.aura.enfocabita.data.local.database.entidades.UserType
 import com.aura.enfocabita.data.local.database.entidades.Usuario
 import com.aura.enfocabita.data.repository.UsuarioRepository
+import com.aura.enfocabita.domain.error.AuthException
 import com.aura.enfocabita.domain.error.DatabaseException
+import com.aura.enfocabita.domain.error.InvalidNameException
 import com.aura.enfocabita.domain.error.UserAlreadyExistsException
 import com.aura.enfocabita.domain.validation.AuthValidator
 import com.aura.enfocabita.domain.validation.AuthValidatorImpl
@@ -23,12 +25,15 @@ class RegisterUser(
     ): Long {
         // 1) Validaciones usando AuthValidator
         val name = nombre.trim()
+        if (!validator.validName(name)) {
+            throw InvalidNameException("El nombre solo puede contener letras y espacios")
+        }
         validator.validateName(name)
 
         val email = correo.trim()
         validator.validateEmail(email)
 
-        validator.validatePassword(plainPassword) // sin trim aquí
+        validator.validatePassword(plainPassword)
 
         // 2) Comprobar usuario existente
         repo.findByEmail(email)?.let {
@@ -38,7 +43,7 @@ class RegisterUser(
         // 3) Hash de la contraseña
         val hashed = passwordHasher(plainPassword)
 
-        // 4) Construir entidad con fecha y tipo
+        // 4) Construir entidad
         val newUser = Usuario(
             nombre             = name,
             correo             = email,
@@ -50,7 +55,6 @@ class RegisterUser(
         // 5) Persistir
         return try {
             repo.createUser(newUser)
-
         } catch (e: SQLiteException) {
             throw DatabaseException("Error al crear el usuario en la base de datos.", e)
         }

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -11,6 +12,7 @@ import com.aura.enfocabita.data.local.database.entidades.Habito
 import com.aura.enfocabita.data.local.database.entidades.PeriodUnit
 import com.aura.enfocabita.data.local.database.entidades.TypeHab
 import kotlinx.coroutines.launch
+import org.koin.compose.viewmodel.koinViewModel
 import java.util.Date
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -22,6 +24,7 @@ fun FormHabitScreen(
     onCancelar: () -> Unit,
     onEliminar: (() -> Unit)? = null
 ) {
+    val viewModel: HabitViewModel = koinViewModel()
     var titulo by remember { mutableStateOf(habitoExistente?.titulo ?: "") }
     var frecuencia by remember { mutableStateOf(habitoExistente?.frecuencia?.toString() ?: "1") }
     var periodo by remember { mutableStateOf(habitoExistente?.periodo ?: PeriodUnit.DIARIO) }
@@ -30,6 +33,13 @@ fun FormHabitScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     var mostrarConfirmacion by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
+    var completadoHoy by remember { mutableStateOf(false) }
+
+    LaunchedEffect(habitoExistente?.idHabito) {
+        if (habitoExistente != null) {
+            completadoHoy = viewModel.estaCompletadoHoy(habitoExistente.idHabito)
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -85,6 +95,24 @@ fun FormHabitScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            if (habitoExistente != null) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(vertical = 8.dp)
+                ) {
+                    Checkbox(
+                        checked = completadoHoy,
+                        onCheckedChange = { isChecked ->
+                            completadoHoy = isChecked
+                            coroutineScope.launch {
+                                viewModel.estaCompletadoHoy(habitoExistente.idHabito)
+                            }
+                        }
+                    )
+                    Text("Marcar como completado hoy")
+                }
+            }
+
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Button(onClick = {
                     if (titulo.isBlank()) {
@@ -136,7 +164,6 @@ fun FormHabitScreen(
         }
     }
 
-    // ✅ Mover fuera del Scaffold
     if (mostrarConfirmacion) {
         AlertDialog(
             onDismissRequest = { mostrarConfirmacion = false },

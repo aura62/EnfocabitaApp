@@ -14,6 +14,7 @@ class AuthValidatorImpl : AuthValidator {
         }
     }
 
+
     override fun validateEmail(email: String) {
         val trimmed = email.trim()
         if (!EMAIL_REGEX.matches(trimmed)) {
@@ -27,4 +28,10 @@ class AuthValidatorImpl : AuthValidator {
             throw WeakPasswordException("La contraseña debe tener al menos 6 caracteres.")
         }
     }
+
+    override fun validName(nombre: String): Boolean {
+        val regex = Regex("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$")
+        return nombre.trim().matches(regex)
+    }
+
 }

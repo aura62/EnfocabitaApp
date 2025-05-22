@@ -2,12 +2,10 @@ package com.aura.enfocabita.presentation.habit
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.aura.enfocabita.data.local.database.DAO.ProgresoHabitoDiarioDao
 import com.aura.enfocabita.data.local.database.entidades.Habito
-import com.aura.enfocabita.domain.usecase.habit.CreateHabitUseCase
-import com.aura.enfocabita.domain.usecase.habit.DeleteHabitUseCase
-import com.aura.enfocabita.domain.usecase.habit.GetHabitByIdUseCase
-import com.aura.enfocabita.domain.usecase.habit.GetHabitsByUserUseCase
-import com.aura.enfocabita.domain.usecase.habit.UpdateHabitUseCase
+import com.aura.enfocabita.data.local.database.entidades.ProgresoHabitoDiario
+import com.aura.enfocabita.domain.usecase.habit.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -21,7 +19,9 @@ class HabitViewModel(
     private val updateHabitUseCase: UpdateHabitUseCase,
     private val deleteHabitUseCase: DeleteHabitUseCase,
     private val getHabitsByUserUseCase: GetHabitsByUserUseCase,
-    private val getHabitByIdUseCase: GetHabitByIdUseCase
+    private val getHabitByIdUseCase: GetHabitByIdUseCase,
+    private val toggleHabitCompletionUseCase: ToggleHabitCompletionUseCase
+
 ) : ViewModel() {
 
     private val _habitos = MutableStateFlow<List<Habito>>(emptyList())
@@ -80,4 +80,9 @@ class HabitViewModel(
     suspend fun cargarHabitoPorId(id: Long): Habito? {
         return getHabitByIdUseCase(id)
     }
+
+    suspend fun estaCompletadoHoy(idHabito: Long): Boolean {
+        return toggleHabitCompletionUseCase.obtenerEstadoActual(idHabito)
+    }
+
 }
