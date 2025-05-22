@@ -1,5 +1,7 @@
 package com.aura.enfocabita.presentation.habit
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aura.enfocabita.data.local.database.DAO.ProgresoHabitoDiarioDao
@@ -77,10 +79,12 @@ class HabitViewModel(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     suspend fun estaCompletadoHoy(idHabito: Long): Boolean {
         return toggleHabitCompletionUseCase.obtenerEstadoActual(idHabito)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun actualizarEstadoHabito(habitId: Long, completado: Boolean) {
         viewModelScope.launch {
             try {
