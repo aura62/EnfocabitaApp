@@ -39,6 +39,19 @@ interface ProgresoHabitoDiarioDao {
     """)
         suspend fun getProgressByHabitAndDate(habitId: Long, date: Date): ProgresoHabitoDiario?
 
+        @Query("""
+    SELECT * FROM progreso_habito_diario 
+    WHERE id_Habito = :habitId 
+      AND fecha_registro BETWEEN :start AND :end 
+    LIMIT 1
+""")
+        suspend fun getProgressByHabitAndDateRange(
+                habitId: Long,
+                start: Date,
+                end: Date
+        ): ProgresoHabitoDiario?
+
+
         /** Inserta o reemplaza, devolviendo el ID generado */
         @Insert(onConflict = OnConflictStrategy.REPLACE)
         suspend fun insertProgress(progress: ProgresoHabitoDiario): Long

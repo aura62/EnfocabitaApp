@@ -1,5 +1,7 @@
 package com.aura.enfocabita.presentation.habit
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aura.enfocabita.data.local.database.DAO.ProgresoHabitoDiarioDao
@@ -77,12 +79,26 @@ class HabitViewModel(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    suspend fun estaCompletadoHoy(idHabito: Long): Boolean {
+        return toggleHabitCompletionUseCase.obtenerEstadoActual(idHabito)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun actualizarEstadoHabito(habitId: Long, completado: Boolean) {
+        viewModelScope.launch {
+            try {
+                toggleHabitCompletionUseCase.actualizarEstado(habitId, completado)
+                _mensaje.emit("Estado del hábito actualizado")
+            } catch (e: Exception) {
+                _mensajeError.emit("Error al actualizar el estado del hábito: ${e.message}")
+            }
+        }
+    }
+
     suspend fun cargarHabitoPorId(id: Long): Habito? {
         return getHabitByIdUseCase(id)
     }
 
-    suspend fun estaCompletadoHoy(idHabito: Long): Boolean {
-        return toggleHabitCompletionUseCase.obtenerEstadoActual(idHabito)
-    }
 
 }

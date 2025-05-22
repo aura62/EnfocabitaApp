@@ -1,5 +1,7 @@
 package com.aura.enfocabita.presentation.habit
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
@@ -15,6 +17,7 @@ import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import java.util.Date
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormHabitScreen(
@@ -104,11 +107,10 @@ fun FormHabitScreen(
                         checked = completadoHoy,
                         onCheckedChange = { isChecked ->
                             completadoHoy = isChecked
-                            coroutineScope.launch {
-                                viewModel.estaCompletadoHoy(habitoExistente.idHabito)
-                            }
+                            viewModel.actualizarEstadoHabito(habitoExistente.idHabito, isChecked)
                         }
                     )
+
                     Text("Marcar como completado hoy")
                 }
             }
