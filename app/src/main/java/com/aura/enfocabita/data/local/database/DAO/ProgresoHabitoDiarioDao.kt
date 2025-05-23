@@ -67,6 +67,14 @@ interface ProgresoHabitoDiarioDao {
                 endDate: Date
         ): List<Date>
 
+        @Query("""
+    SELECT COUNT(*) FROM progreso_habito_diario 
+    WHERE completado = 1 AND id_Habito IN (
+        SELECT idHabito FROM habito WHERE id_Usuario = :userId
+    ) AND fecha_registro BETWEEN :start AND :end
+""")
+        suspend fun getHabitsCompleteCountForDate(userId: Long, start: Date, end: Date): Int
+
 
         /** Inserta o reemplaza, devolviendo el ID generado */
         @Insert(onConflict = OnConflictStrategy.REPLACE)
