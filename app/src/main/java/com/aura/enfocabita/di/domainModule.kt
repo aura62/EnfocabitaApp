@@ -12,6 +12,7 @@ import com.aura.enfocabita.domain.usecase.habit.*
 import com.aura.enfocabita.domain.usecase.inicio.*
 import com.aura.enfocabita.domain.usecase.pomodoro.*
 import com.aura.enfocabita.domain.usecase.pomodoro.GetPomodoroSessionByIdUseCase
+import com.aura.enfocabita.domain.usecase.stats.GetResumenEstadisticasSemanaUseCase
 import org.koin.dsl.module
 import java.util.Date
 
@@ -67,5 +68,8 @@ val domainModule = module {
     //calendario
     factory { GetCompletedDatesUseCase(get()) }
     factory { GetCompletedHabitsForDateUseCase(get()) }
+
+    //estadisticas
+    factory { GetResumenEstadisticasSemanaUseCase(get(), get()) }
 
 }
