@@ -17,7 +17,7 @@ val viewModelModule = module {
     viewModel { PomodoroViewModel(get(), get(), get(), get(), get()) }
     viewModel { ConfigurationViewModel(get()) }
     viewModel { CalendarViewModel(get(), get()) }
-    viewModel { StatsViewModel(get()) }
+    viewModel { StatsViewModel(get(), get(), get()) }
 
 
 }

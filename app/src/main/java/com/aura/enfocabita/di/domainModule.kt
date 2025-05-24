@@ -12,7 +12,9 @@ import com.aura.enfocabita.domain.usecase.habit.*
 import com.aura.enfocabita.domain.usecase.inicio.*
 import com.aura.enfocabita.domain.usecase.pomodoro.*
 import com.aura.enfocabita.domain.usecase.pomodoro.GetPomodoroSessionByIdUseCase
+import com.aura.enfocabita.domain.usecase.stats.GetHabitCountByTypeUseCase
 import com.aura.enfocabita.domain.usecase.stats.GetResumenEstadisticasSemanaUseCase
+import com.aura.enfocabita.domain.usecase.stats.GetHabitsCompletedPerDayOfWeekUseCase
 import org.koin.dsl.module
 import java.util.Date
 
@@ -71,5 +73,8 @@ val domainModule = module {
 
     //estadisticas
     factory { GetResumenEstadisticasSemanaUseCase(get(), get()) }
+    factory { GetHabitsCompletedPerDayOfWeekUseCase(get()) }
+    factory { GetHabitCountByTypeUseCase(get()) }
+
 
 }

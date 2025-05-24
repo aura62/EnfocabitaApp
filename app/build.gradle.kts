@@ -1,3 +1,4 @@
+import org.gradle.kotlin.dsl.implementation
 
 
 plugins {
@@ -106,5 +107,9 @@ dependencies {
 
     //Gson
     implementation(libs.gson)
+
+    //compose chart
+    implementation(libs.charts.compose)
+
 
 }

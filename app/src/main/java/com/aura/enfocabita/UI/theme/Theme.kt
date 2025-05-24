@@ -36,6 +36,7 @@ val md_theme_dark_surface = Color(0xFF2E2E2E)
 val md_theme_dark_error = Color(0xFFCF6679)
 val md_theme_dark_onBackground = Color(0xFFE0E0E0)
 val md_theme_dark_onSurface = Color(0xFFE0E0E0)
+val bar_label = Color.Unspecified
 
 private val LightColors: ColorScheme = lightColorScheme(
     primary = md_theme_light_primary,

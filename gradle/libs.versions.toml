@@ -26,6 +26,7 @@ datastore        = "1.1.6"
 security-crypto  = "1.1.0-alpha07"
 ui-tooling       = "1.8.1"
 foundationAndroid = "1.7.2"
+charts = "0.2.4-alpha"
 
 
 [libraries]
@@ -57,6 +58,7 @@ koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin"
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 koin-compose = { group = "io.insert-koin", name = "koin-compose" }
 koin-compose-viewmodel = { group = "io.insert-koin", name = "koin-compose-viewmodel", version.ref = "koinCompose"}
+charts-compose = { module = "com.github.tehras:charts", version.ref = "charts" }
 
 
 # Compose UI tooling (inspector) y preview
