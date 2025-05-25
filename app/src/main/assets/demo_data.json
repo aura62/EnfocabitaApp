@@ -1,387 +1,156 @@
 {
-    "usuarios": [
-        {
-            "id": 1,
-            "nombre": "Juan Perez",
-            "correo": "juan@correo.com",
-            "contrasena": "hashed_password"
-        },
-        {
-            "id": 2,
-            "nombre": "Maria Lopez",
-            "correo": "analitico@correo.com",
-            "contrasena": "hashed_password2"
-        }
-    ],
+    "usuario": {
+        "nombre": "Juan Perez",
+        "correo": "juan@correo.com",
+        "password": "123456"
+    },
     "habitos": [
         {
-            "id": 1,
-            "idUsuario": 1,
-            "titulo": "Leer",
-            "frecuencia": 1,
-            "periodo": "DIARIO",
+            "titulo": "H\u00e1bito 1",
             "tipo": "ADQUIRIR",
-            "fechaRegistro": "2025-05-01"
+            "frecuencia": 1,
+            "periodo": "DIARIO"
         },
         {
-            "id": 2,
-            "idUsuario": 1,
-            "titulo": "Ejercicio",
-            "frecuencia": 3,
-            "periodo": "SEMANAL",
+            "titulo": "H\u00e1bito 2",
             "tipo": "MANTENER",
-            "fechaRegistro": "2025-05-01"
+            "frecuencia": 2,
+            "periodo": "SEMANAL"
         },
         {
-            "id": 3,
-            "idUsuario": 1,
-            "titulo": "Meditar",
-            "frecuencia": 7,
-            "periodo": "SEMANAL",
-            "tipo": "ADQUIRIR",
-            "fechaRegistro": "2025-05-10"
-        },
-        {
-            "id": 4,
-            "idUsuario": 1,
-            "titulo": "Fumar",
-            "frecuencia": 7,
-            "periodo": "DIARIO",
-            "tipo": "ADQUIRIR",
-            "fechaRegistro": "2025-05-10"
-        },
-        {
-            "id": 5,
-            "idUsuario": 1,
-            "titulo": "Tomar agua",
-            "frecuencia": 1,
-            "periodo": "SEMANAL",
-            "tipo": "MANTENER",
-            "fechaRegistro": "2025-05-10"
-        },
-        {
-            "id": 6,
-            "idUsuario": 1,
-            "titulo": "Redes sociales",
-            "frecuencia": 1,
-            "periodo": "DIARIO",
+            "titulo": "H\u00e1bito 3",
             "tipo": "ABANDONAR",
-            "fechaRegistro": "2025-05-10"
+            "frecuencia": 3,
+            "periodo": "DIARIO"
         },
         {
-            "id": 7,
-            "idUsuario": 1,
-            "titulo": "Tareas del hogar",
+            "titulo": "H\u00e1bito 4",
+            "tipo": "ADQUIRIR",
             "frecuencia": 4,
-            "periodo": "SEMANAL",
-            "tipo": "ABANDONAR",
-            "fechaRegistro": "2025-05-10"
+            "periodo": "SEMANAL"
         },
         {
-            "id": 8,
-            "idUsuario": 2,
-            "titulo": "Meditar",
-            "frecuencia": 1,
-            "periodo": "SEMANAL",
-            "tipo": "ADQUIRIR",
-            "fechaRegistro": "2025-05-10"
-        },
-        {
-            "id": 9,
-            "idUsuario": 2,
-            "titulo": "Fumar",
-            "frecuencia": 6,
-            "periodo": "DIARIO",
+            "titulo": "H\u00e1bito 5",
             "tipo": "MANTENER",
-            "fechaRegistro": "2025-05-10"
-        },
-        {
-            "id": 10,
-            "idUsuario": 2,
-            "titulo": "Tomar agua",
-            "frecuencia": 7,
-            "periodo": "SEMANAL",
-            "tipo": "ABANDONAR",
-            "fechaRegistro": "2025-05-10"
-        },
-        {
-            "id": 11,
-            "idUsuario": 2,
-            "titulo": "Redes sociales",
             "frecuencia": 5,
-            "periodo": "DIARIO",
-            "tipo": "ABANDONAR",
-            "fechaRegistro": "2025-05-10"
+            "periodo": "DIARIO"
         },
         {
-            "id": 12,
-            "idUsuario": 2,
-            "titulo": "Tareas del hogar",
-            "frecuencia": 3,
-            "periodo": "SEMANAL",
+            "titulo": "Habito Maria 1",
+            "tipo": "ADQUIRIR",
+            "frecuencia": 2,
+            "periodo": "SEMANAL"
+        },
+        {
+            "titulo": "Habito Maria 2",
             "tipo": "MANTENER",
-            "fechaRegistro": "2025-05-10"
+            "frecuencia": 3,
+            "periodo": "DIARIO"
+        },
+        {
+            "titulo": "Habito Maria 3",
+            "tipo": "ABANDONAR",
+            "frecuencia": 4,
+            "periodo": "SEMANAL"
+        },
+        {
+            "titulo": "Habito Maria 4",
+            "tipo": "ADQUIRIR",
+            "frecuencia": 5,
+            "periodo": "DIARIO"
+        },
+        {
+            "titulo": "Habito Maria 5",
+            "tipo": "MANTENER",
+            "frecuencia": 6,
+            "periodo": "SEMANAL"
         }
     ],
-    "progresoHabitos": [
+    "progresos": [
         {
-            "id": 1,
-            "idHabito": 1,
-            "fechaRegistro": "2025-05-25",
+            "habitoIndex": 0,
             "completado": true
         },
         {
-            "id": 2,
-            "idHabito": 1,
-            "fechaRegistro": "2025-05-24",
+            "habitoIndex": 1,
             "completado": false
         },
         {
-            "id": 3,
-            "idHabito": 1,
-            "fechaRegistro": "2025-05-23",
-            "completado": false
-        },
-        {
-            "id": 4,
-            "idHabito": 2,
-            "fechaRegistro": "2025-05-25",
-            "completado": false
-        },
-        {
-            "id": 5,
-            "idHabito": 2,
-            "fechaRegistro": "2025-05-24",
+            "habitoIndex": 2,
             "completado": true
         },
         {
-            "id": 6,
-            "idHabito": 2,
-            "fechaRegistro": "2025-05-23",
+            "habitoIndex": 3,
+            "completado": false
+        },
+        {
+            "habitoIndex": 4,
             "completado": true
         },
         {
-            "id": 7,
-            "idHabito": 3,
-            "fechaRegistro": "2025-05-25",
-            "completado": false
-        },
-        {
-            "id": 8,
-            "idHabito": 3,
-            "fechaRegistro": "2025-05-24",
-            "completado": false
-        },
-        {
-            "id": 9,
-            "idHabito": 3,
-            "fechaRegistro": "2025-05-23",
-            "completado": false
-        },
-        {
-            "id": 10,
-            "idHabito": 4,
-            "fechaRegistro": "2025-05-25",
+            "habitoIndex": 5,
             "completado": true
         },
         {
-            "id": 11,
-            "idHabito": 4,
-            "fechaRegistro": "2025-05-24",
+            "habitoIndex": 6,
+            "completado": false
+        },
+        {
+            "habitoIndex": 7,
             "completado": true
         },
         {
-            "id": 12,
-            "idHabito": 4,
-            "fechaRegistro": "2025-05-23",
+            "habitoIndex": 8,
+            "completado": false
+        },
+        {
+            "habitoIndex": 9,
             "completado": true
-        },
-        {
-            "id": 13,
-            "idHabito": 5,
-            "fechaRegistro": "2025-05-25",
-            "completado": true
-        },
-        {
-            "id": 14,
-            "idHabito": 5,
-            "fechaRegistro": "2025-05-24",
-            "completado": false
-        },
-        {
-            "id": 15,
-            "idHabito": 5,
-            "fechaRegistro": "2025-05-23",
-            "completado": false
-        },
-        {
-            "id": 16,
-            "idHabito": 6,
-            "fechaRegistro": "2025-05-25",
-            "completado": false
-        },
-        {
-            "id": 17,
-            "idHabito": 6,
-            "fechaRegistro": "2025-05-24",
-            "completado": false
-        },
-        {
-            "id": 18,
-            "idHabito": 6,
-            "fechaRegistro": "2025-05-23",
-            "completado": false
-        },
-        {
-            "id": 19,
-            "idHabito": 7,
-            "fechaRegistro": "2025-05-25",
-            "completado": true
-        },
-        {
-            "id": 20,
-            "idHabito": 7,
-            "fechaRegistro": "2025-05-24",
-            "completado": true
-        },
-        {
-            "id": 21,
-            "idHabito": 7,
-            "fechaRegistro": "2025-05-23",
-            "completado": false
-        },
-        {
-            "id": 22,
-            "idHabito": 8,
-            "fechaRegistro": "2025-05-25",
-            "completado": true
-        },
-        {
-            "id": 23,
-            "idHabito": 8,
-            "fechaRegistro": "2025-05-24",
-            "completado": false
-        },
-        {
-            "id": 24,
-            "idHabito": 8,
-            "fechaRegistro": "2025-05-23",
-            "completado": true
-        },
-        {
-            "id": 25,
-            "idHabito": 9,
-            "fechaRegistro": "2025-05-25",
-            "completado": false
-        },
-        {
-            "id": 26,
-            "idHabito": 9,
-            "fechaRegistro": "2025-05-24",
-            "completado": false
-        },
-        {
-            "id": 27,
-            "idHabito": 9,
-            "fechaRegistro": "2025-05-23",
-            "completado": false
-        },
-        {
-            "id": 28,
-            "idHabito": 10,
-            "fechaRegistro": "2025-05-25",
-            "completado": false
-        },
-        {
-            "id": 29,
-            "idHabito": 10,
-            "fechaRegistro": "2025-05-24",
-            "completado": true
-        },
-        {
-            "id": 30,
-            "idHabito": 10,
-            "fechaRegistro": "2025-05-23",
-            "completado": false
-        },
-        {
-            "id": 31,
-            "idHabito": 11,
-            "fechaRegistro": "2025-05-25",
-            "completado": false
-        },
-        {
-            "id": 32,
-            "idHabito": 11,
-            "fechaRegistro": "2025-05-24",
-            "completado": true
-        },
-        {
-            "id": 33,
-            "idHabito": 11,
-            "fechaRegistro": "2025-05-23",
-            "completado": true
-        },
-        {
-            "id": 34,
-            "idHabito": 12,
-            "fechaRegistro": "2025-05-25",
-            "completado": false
-        },
-        {
-            "id": 35,
-            "idHabito": 12,
-            "fechaRegistro": "2025-05-24",
-            "completado": false
-        },
-        {
-            "id": 36,
-            "idHabito": 12,
-            "fechaRegistro": "2025-05-23",
-            "completado": false
         }
     ],
     "pomodoros": [
         {
-            "id": 1,
-            "idUsuario": 1,
-            "tituloTarea": "Estudiar Kotlin",
-            "duracion_ms": 1500000,
-            "dcorto_ms": 300000,
-            "dLargo_ms": 900000,
-            "numSesiones": 4
+            "titulo": "Estudiar Kotlin",
+            "duracion": 1500000,
+            "dcorto": 300000,
+            "dlargo": 900000,
+            "sesiones": 4,
+            "historial": [
+                {
+                    "fecha": "2025-05-25",
+                    "hora": "09:00:00"
+                },
+                {
+                    "fecha": "2025-05-24",
+                    "hora": "08:30:00"
+                }
+            ]
         },
         {
-            "id": 2,
-            "idUsuario": 2,
-            "tituloTarea": "Tesis",
-            "duracion_ms": 1800000,
-            "dcorto_ms": 300000,
-            "dLargo_ms": 1200000,
-            "numSesiones": 0
+            "titulo": "Leer documentaci\u00f3n",
+            "duracion": 1200000,
+            "dcorto": 300000,
+            "dlargo": 900000,
+            "sesiones": 0,
+            "historial": []
         },
         {
-            "id": 3,
-            "idUsuario": 2,
-            "tituloTarea": "Practicar ingl\u00e9s",
-            "duracion_ms": 1200000,
-            "dcorto_ms": 300000,
-            "dLargo_ms": 900000,
-            "numSesiones": 3
+            "titulo": "Redactar informe",
+            "duracion": 1800000,
+            "dcorto": 300000,
+            "dlargo": 1200000,
+            "sesiones": 3,
+            "historial": [
+                {
+                    "fecha": "2025-05-23",
+                    "hora": "10:00:00"
+                }
+            ]
         }
     ],
-    "historialPomodoro": [
-        {
-            "id": 1,
-            "idPomodoro": 1,
-            "fecha": "2025-05-24",
-            "sesionesCompletadas": 4
-        },
-        {
-            "id": 2,
-            "idPomodoro": 3,
-            "fecha": "2025-05-23",
-            "sesionesCompletadas": 2
-        }
-    ]
+    "usuario2": {
+        "nombre": "Maria Lopez",
+        "correo": "maria@correo.com",
+        "password": "claveSegura"
+    }
 }
