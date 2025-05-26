@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.aura.enfocabita.data.repository.UsuarioRepository
 import com.aura.enfocabita.domain.usecase.inicio.GetLastActivityDateUseCase
 import com.aura.enfocabita.domain.usecase.inicio.GetTodayHabitProgressUseCase
 import com.aura.enfocabita.domain.usecase.inicio.GetTodayPomodoroTimeUseCase
@@ -26,7 +27,8 @@ import java.util.Date
 class InicioViewModel(
     private val getTodayHabitProgressUseCase: GetTodayHabitProgressUseCase,
     private val getTodayPomodoroTimeUseCase: GetTodayPomodoroTimeUseCase,
-    private val getLastActivityDateUseCase: GetLastActivityDateUseCase
+    private val getLastActivityDateUseCase: GetLastActivityDateUseCase,
+    private val usuarioRepository: UsuarioRepository
 ) : ViewModel() {
 
     // Estado observable de la UI que contiene los datos del resumen
@@ -47,18 +49,22 @@ class InicioViewModel(
             _uiState.value = _uiState.value.copy(isLoading = true)
 
             // Llamadas a los casos de uso
+            val user = usuarioRepository.getUserById(userId)
             val progreso = getTodayHabitProgressUseCase(userId, fecha)
             val minutosPomodoro = getTodayPomodoroTimeUseCase(userId, fecha)
             val ultimaActividad = getLastActivityDateUseCase(userId)
 
             // Actualiza el estado de UI con los resultados
-            _uiState.value = InicioUiState(
-                isLoading = false,
-                habitosCompletados = progreso.completados, // ✅ Corregido
-                habitosTotales = progreso.total,
-                minutosPomodoro = minutosPomodoro,
-                ultimaActividad = ultimaActividad
-            )
+            user?.let {
+                _uiState.value = InicioUiState(
+                    isLoading = false,
+                    habitosCompletados = progreso.completados, // ✅ Corregido
+                    habitosTotales = progreso.total,
+                    minutosPomodoro = minutosPomodoro,
+                    ultimaActividad = ultimaActividad,
+                    nombreUsuario = it.nombre
+                )
+            }
 
         }
     }

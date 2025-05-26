@@ -43,6 +43,9 @@ fun InicioScreen(
             .fillMaxSize()
             .padding(16.dp)
     ) {
+
+        GreetingSection(nombre = uiState.nombreUsuario)
+
         Text(
             text = "Resumen de hoy",
             style = MaterialTheme.typography.headlineSmall

@@ -7,5 +7,6 @@ data class InicioUiState(
     val habitosCompletados: Int = 0,
     val habitosTotales: Int = 0,
     val minutosPomodoro: Long = 0,
-    val ultimaActividad: Date? = null
+    val ultimaActividad: Date? = null,
+    val nombreUsuario: String = ""
 )
