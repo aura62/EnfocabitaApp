@@ -92,6 +92,13 @@ fun FormPomodoroScreen(
                         return@Button
                     }
 
+                    if (trabajoMin <= 0 || descansoCortoMin <= 0 || descansoLargoMin <= 0 || sesiones <= 0) {
+                        coroutineScope.launch {
+                            snackbarHostState.showSnackbar("Todos los valores deben ser mayores a cero.")
+                        }
+                        return@Button
+                    }
+
                     val nueva = sesionExistente?.copy(
                         tituloTarea = titulo,
                         duracion_ms = trabajoMin * 60000,
