@@ -5,9 +5,11 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aura.enfocabita.data.repository.UsuarioRepository
+import com.aura.enfocabita.domain.usecase.inicio.GetCurrentStreakUseCase
 import com.aura.enfocabita.domain.usecase.inicio.GetLastActivityDateUseCase
 import com.aura.enfocabita.domain.usecase.inicio.GetTodayHabitProgressUseCase
 import com.aura.enfocabita.domain.usecase.inicio.GetTodayPomodoroTimeUseCase
+import com.aura.enfocabita.utils.FrasesMotivacionales
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -28,12 +30,16 @@ class InicioViewModel(
     private val getTodayHabitProgressUseCase: GetTodayHabitProgressUseCase,
     private val getTodayPomodoroTimeUseCase: GetTodayPomodoroTimeUseCase,
     private val getLastActivityDateUseCase: GetLastActivityDateUseCase,
-    private val usuarioRepository: UsuarioRepository
+    private val usuarioRepository: UsuarioRepository,
+    val racha : GetCurrentStreakUseCase
 ) : ViewModel() {
 
     // Estado observable de la UI que contiene los datos del resumen
     private val _uiState = MutableStateFlow(InicioUiState())
     val uiState: StateFlow<InicioUiState> = _uiState
+
+    private val _fraseDelDia = MutableStateFlow<String?>(null)
+    val fraseDelDia: StateFlow<String?> = _fraseDelDia
 
     /**
      * Carga el resumen diario del usuario para la fecha actual (por defecto) o una personalizada.
@@ -53,19 +59,34 @@ class InicioViewModel(
             val progreso = getTodayHabitProgressUseCase(userId, fecha)
             val minutosPomodoro = getTodayPomodoroTimeUseCase(userId, fecha)
             val ultimaActividad = getLastActivityDateUseCase(userId)
+            val rachaActual = racha(userId)
+
 
             // Actualiza el estado de UI con los resultados
             user?.let {
+                seleccionarFraseDelDia()
                 _uiState.value = InicioUiState(
                     isLoading = false,
                     habitosCompletados = progreso.completados, // ✅ Corregido
                     habitosTotales = progreso.total,
                     minutosPomodoro = minutosPomodoro,
                     ultimaActividad = ultimaActividad,
-                    nombreUsuario = it.nombre
+                    nombreUsuario = it.nombre,
+                    rachaActual = rachaActual
                 )
             }
 
+
+
         }
     }
+
+    private fun seleccionarFraseDelDia() {
+        _fraseDelDia.value = FrasesMotivacionales.obtenerAleatoria()
+    }
+
+    fun reiniciarEstado() {
+        _uiState.value = InicioUiState(isLoading = true)
+    }
+
 }

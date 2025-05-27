@@ -8,6 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -27,15 +28,13 @@ import java.util.*
 fun InicioScreen(
     userId: Long,
     viewModel: InicioViewModel,
+    navController: NavController,
     modifier: Modifier = Modifier
 ) {
     // Estado reactivo expuesto por el ViewModel
     val uiState by viewModel.uiState.collectAsState()
+    val fraseDelDia by viewModel.fraseDelDia.collectAsState()
 
-    // Carga automática del resumen cuando se entra por primera vez
-    LaunchedEffect(userId) {
-        viewModel.cargarResumen(userId)
-    }
 
     // Contenido principal
     Column(
@@ -44,14 +43,9 @@ fun InicioScreen(
             .padding(16.dp)
     ) {
 
-        GreetingSection(nombre = uiState.nombreUsuario)
+        uiState.nombreUsuario?.let { GreetingSection(nombre = it) }
 
-        Text(
-            text = "Resumen de hoy",
-            style = MaterialTheme.typography.headlineSmall
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
         if (uiState.isLoading) {
             // Indicador de carga mientras se obtienen los datos
@@ -59,31 +53,72 @@ fun InicioScreen(
                 CircularProgressIndicator()
             }
         } else {
-            // Mostrar progreso de hábitos
-            Text(
-                text = "Hábitos completados: ${uiState.habitosCompletados} de ${uiState.habitosTotales}",
-                style = MaterialTheme.typography.bodyLarge
-            )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Text("Resumen del día", style = MaterialTheme.typography.titleMedium)
 
-            // Mostrar minutos en Pomodoro
-            Text(
-                text = "Minutos en Pomodoro: ${uiState.minutosPomodoro} min",
-                style = MaterialTheme.typography.bodyLarge
-            )
+                    Text("✅ Hábitos completados: ${uiState.habitosCompletados} de ${uiState.habitosTotales}")
+                    Text("⏱️ Minutos Pomodoro: ${uiState.minutosPomodoro} min")
 
-            Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "📅 Última actividad: ${
+                            uiState.ultimaActividad?.let {
+                                SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(it)
+                            } ?: "Sin datos"
+                        }"
+                    )
+                }
+            }
 
-            // Mostrar fecha de última actividad
-            Text(
-                text = "Última actividad: ${
-                    uiState.ultimaActividad?.let {
-                        SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(it)
-                    } ?: "Sin datos"
-                }",
-                style = MaterialTheme.typography.bodyLarge
-            )
+            Spacer(modifier = Modifier.height(12.dp))
+            StreakCard(racha = uiState.rachaActual)
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            fraseDelDia?.let {
+                Spacer(modifier = Modifier.height(12.dp))
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.inverseSurface),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+                ) {
+                    Text(
+                        text = "\"$it\"",
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
+            }
+
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Button(
+                    onClick = { navController.navigate("habitos/lista") },
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text("Ver hábitos")
+                }
+
+                Button(
+                    onClick = { navController.navigate("pomodoro/lista") },
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text("Pomodoro")
+                }
+            }
         }
     }
-}

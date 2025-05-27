@@ -14,9 +14,11 @@ import androidx.annotation.RequiresApi
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import com.aura.enfocabita.presentation.auth.AuthViewModel
 import com.aura.enfocabita.presentation.configuration.ConfigurationScreen
@@ -38,8 +40,16 @@ fun HomeNavGraph(
     navController: NavHostController,
     userId: Long,
     inicioViewModel: InicioViewModel,
-    authViewModel: AuthViewModel // ✔️ Se recibe aquí
+    authViewModel: AuthViewModel
 ) {
+    val currentEntry = navController.currentBackStackEntryAsState().value // ✅ MOVER AQUÍ
+
+    LaunchedEffect(currentEntry) {
+        if (currentEntry?.destination?.route == HomeDestination.Inicio.route) {
+            inicioViewModel.cargarResumen(userId)
+        }
+    }
+
     Scaffold(
         bottomBar = {
             BottomNavigationBar(navController = navController)
@@ -51,7 +61,20 @@ fun HomeNavGraph(
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(HomeDestination.Inicio.route) {
-                InicioScreen(userId = userId, viewModel = inicioViewModel)
+                val currentEntry = navController.currentBackStackEntryAsState().value
+
+                LaunchedEffect(currentEntry) {
+                    if (currentEntry?.destination?.route == HomeDestination.Inicio.route) {
+                        inicioViewModel.reiniciarEstado()
+                        inicioViewModel.cargarResumen(userId)
+                    }
+                }
+
+                InicioScreen(
+                    userId = userId,
+                    viewModel = inicioViewModel,
+                    navController = navController
+                )
             }
 
             navigation(
@@ -79,7 +102,7 @@ fun HomeNavGraph(
             composable(HomeDestination.Configuracion.route) {
                 ConfigurationScreen(
                     navController = navController,
-                    authViewModel = authViewModel // ✔️ Se pasa el mismo ViewModel
+                    authViewModel = authViewModel
                 )
             }
         }

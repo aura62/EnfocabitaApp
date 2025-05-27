@@ -48,6 +48,7 @@ val domainModule = module {
     factory { GetTodayHabitProgressUseCase(get()) }
     factory { GetTodayPomodoroTimeUseCase(get()) }
     factory { GetLastActivityDateUseCase(get()) }
+    factory { GetCurrentStreakUseCase(get()) }
 
     // 📋 Hábitos
     factory { CreateHabitUseCase(get()) }

@@ -8,5 +8,7 @@ data class InicioUiState(
     val habitosTotales: Int = 0,
     val minutosPomodoro: Long = 0,
     val ultimaActividad: Date? = null,
-    val nombreUsuario: String = ""
+    val nombreUsuario: String = "",
+    val rachaActual: Int = 0 // 👈 nuevo campo
+
 )
