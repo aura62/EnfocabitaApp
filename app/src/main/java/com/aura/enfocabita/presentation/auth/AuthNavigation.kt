@@ -117,7 +117,7 @@ fun LoginScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(id = R.drawable.logo_texto),
+            painter = painterResource(id = R.drawable.logo_login),
             contentDescription = "Logo de Enfocabita",
             modifier = Modifier
                 .fillMaxWidth(0.5f) // 50% del ancho disponible
