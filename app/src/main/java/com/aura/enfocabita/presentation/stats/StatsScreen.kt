@@ -50,7 +50,7 @@ fun StatsScreen(
             Text("Promedio diario: ${"%.1f".format(it.promedioDiario)} hábitos")
             Text("Días activos: ${it.diasActivos} / 7")
 
-            Divider()
+            Spacer(Modifier.height(24.dp))
 
             // 📈 Gráfico de barras por día
             if (graficoSemanal.isNotEmpty()) {
@@ -61,7 +61,6 @@ fun StatsScreen(
             }
 
             Spacer(modifier = Modifier.height(16.dp))
-            Divider()
 
             // 🥧 Gráfico de pastel por tipo de hábito
             if (habitDistribucion.isNotEmpty()) {

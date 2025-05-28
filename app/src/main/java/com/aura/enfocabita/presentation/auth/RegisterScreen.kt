@@ -1,17 +1,18 @@
 package com.aura.enfocabita.presentation.auth
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.R
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import org.koin.compose.viewmodel.koinViewModel
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -28,6 +29,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.painterResource
+import com.aura.enfocabita.R
 
 /**
  * Pantalla de registro de nuevos usuarios.
@@ -71,6 +74,14 @@ fun RegisterScreen(
         horizontalAlignment = Alignment.CenterHorizontally
 
         ) {
+
+        Image(
+            painter = painterResource(id = R.drawable.logo_texto),
+            contentDescription = "Logo de Enfocabita",
+            modifier = Modifier
+                .fillMaxWidth(0.5f) // 50% del ancho disponible
+                .aspectRatio(1f)     // Mantiene proporción cuadrada
+        )
 
         Text("Crear cuenta", style = MaterialTheme.typography.headlineMedium)
         Spacer(Modifier.height(24.dp))

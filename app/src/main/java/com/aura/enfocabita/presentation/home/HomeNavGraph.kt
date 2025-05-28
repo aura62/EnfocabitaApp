@@ -108,16 +108,3 @@ fun HomeNavGraph(
         }
     }
 }
-
-
-@Composable
-fun PlaceholderScreen(nombre: String) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text("Pantalla: $nombre", style = MaterialTheme.typography.headlineMedium)
-    }
-
-
-}
