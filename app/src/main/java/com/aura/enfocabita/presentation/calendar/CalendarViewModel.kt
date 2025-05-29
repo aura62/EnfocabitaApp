@@ -32,13 +32,10 @@ class CalendarViewModel(
     @RequiresApi(Build.VERSION_CODES.O)
     fun cargarFechas(userId: Long, mes: Int, anio: Int) {
         viewModelScope.launch {
+            _isLoading.value = true
+            _error.value = null
             try {
-                _isLoading.value = true
-                _error.value = null
-
-                val fechas = getCompletedDatesUseCase(userId, mes, anio)
-                _completedDates.value = fechas
-
+                _completedDates.value = getCompletedDatesUseCase(userId, mes, anio)
             } catch (e: Exception) {
                 _error.value = e.message ?: "Error al cargar fechas"
             } finally {
@@ -50,7 +47,11 @@ class CalendarViewModel(
     @RequiresApi(Build.VERSION_CODES.O)
     fun cargarHabitosPorFecha(userId: Long, fecha: LocalDate) {
         viewModelScope.launch {
-            _habitosCompletados.value = getCompletedHabitsForDateUseCase(userId, fecha)
+            try {
+                _habitosCompletados.value = getCompletedHabitsForDateUseCase(userId, fecha)
+            } catch (e: Exception) {
+                _habitosCompletados.value = emptyList() // fallback si hay error
+            }
         }
     }
 }

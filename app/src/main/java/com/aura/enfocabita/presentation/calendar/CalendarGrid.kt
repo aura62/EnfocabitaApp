@@ -5,13 +5,10 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.format.TextStyle
-import java.util.Locale
+import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -35,9 +32,15 @@ fun CalendarGrid(
 ) {
     val primerDiaDelMes = LocalDate.of(anio, mes, 1)
     val diasEnMes = primerDiaDelMes.lengthOfMonth()
-    val primerDiaDeLaSemana = primerDiaDelMes.dayOfWeek.value % 7
+    val diaSemanaInicio = primerDiaDelMes.dayOfWeek
+    val offset = (diaSemanaInicio.value + 6) % 7 // Lunes = 0, Domingo = 6
 
-    val totalCeldas = diasEnMes + primerDiaDeLaSemana
+    val totalCeldas = diasEnMes + offset
+
+    val diasSemana = listOf(
+        DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY,
+        DayOfWeek.THURSDAY, DayOfWeek.FRIDAY, DayOfWeek.SATURDAY, DayOfWeek.SUNDAY
+    )
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(7),
@@ -46,14 +49,19 @@ fun CalendarGrid(
             .height(320.dp),
         userScrollEnabled = false
     ) {
-        // Nombres de los días
+        // Nombres de los días en español
         items(7) { i ->
-            val nombre = DayOfWeek.of((i + 1) % 7 + 1).getDisplayName(TextStyle.SHORT, Locale.getDefault())
-            Text(nombre, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
+            val nombre = diasSemana[i].getDisplayName(TextStyle.SHORT, Locale("es"))
+            Text(
+                text = nombre,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.labelMedium
+            )
         }
 
         // Espacios vacíos antes del primer día
-        items(primerDiaDeLaSemana) {
+        items(offset) {
             Box(Modifier.size(40.dp))
         }
 
@@ -68,11 +76,18 @@ fun CalendarGrid(
                     .padding(4.dp)
                     .size(40.dp)
                     .border(1.dp, MaterialTheme.colorScheme.outline, shape = MaterialTheme.shapes.small)
-                    .background(if (estaCompleto) MaterialTheme.colorScheme.primary.copy(alpha = 0.3f) else Color.Transparent)
+                    .background(
+                        if (estaCompleto) MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
+                        else Color.Transparent
+                    )
                     .clickable { onDiaSeleccionado(fecha) },
                 contentAlignment = Alignment.Center
             ) {
-                Text(dia.toString(), textAlign = TextAlign.Center)
+                Text(
+                    text = dia.toString(),
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.bodySmall
+                )
             }
         }
     }
