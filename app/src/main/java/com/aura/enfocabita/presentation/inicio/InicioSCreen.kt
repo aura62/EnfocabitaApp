@@ -66,7 +66,6 @@ fun InicioScreen(
                     Text("Resumen del día", style = MaterialTheme.typography.titleMedium)
 
                     Text("✅ Hábitos completados: ${uiState.habitosCompletados} de ${uiState.habitosTotales}")
-                    Text("⏱️ Minutos Pomodoro: ${uiState.minutosPomodoro} min")
 
                     Text(
                         text = "📅 Última actividad: ${
