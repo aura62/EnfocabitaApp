@@ -4,7 +4,7 @@ data class DemoData(
     val usuario: DemoUsuario,
     val habitos: List<DemoHabito>,
     val progresos: List<DemoProgreso>,
-    val pomodoros: List<DemoPomodoro> // ✅ nuevo
+    val pomodoros: List<DemoPomodoro>
 )
 
 data class DemoUsuario(
