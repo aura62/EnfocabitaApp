@@ -42,7 +42,7 @@ fun HomeNavGraph(
     inicioViewModel: InicioViewModel,
     authViewModel: AuthViewModel
 ) {
-    val currentEntry = navController.currentBackStackEntryAsState().value // ✅ MOVER AQUÍ
+    val currentEntry = navController.currentBackStackEntryAsState().value
 
     LaunchedEffect(currentEntry) {
         if (currentEntry?.destination?.route == HomeDestination.Inicio.route) {
