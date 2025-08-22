@@ -16,18 +16,18 @@ import androidx.compose.foundation.verticalScroll
 
 @Composable
 fun PieChartDistribucionHabitos(data: Map<String, Int>) {
-    // ✅ Prevención de división por cero
+    // Prevención de división por cero
     val total = data.values.sum().takeIf { it > 0 }?.toFloat() ?: 1f
     val scrollState = rememberScrollState()
 
-    // 🎨 Colores asignados por tipo
+    // Colores asignados por tipo
     val coloresPorTipo = mapOf(
         "ADQUIRIR" to Color(0xFF81C784),
         "MANTENER" to Color(0xFF64B5F6),
         "ABANDONAR" to Color(0xFFE57373)
     )
 
-    // 🥧 Datos ordenados de mayor a menor
+    // Datos ordenados de mayor a menor
     val slices = data.entries
         .sortedByDescending { it.value }
         .map {
@@ -44,7 +44,7 @@ fun PieChartDistribucionHabitos(data: Map<String, Int>) {
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        // 📊 Gráfico de pastel sin etiquetas internas
+        // Gráfico de pastel sin etiquetas internas
         PieChart(
             pieChartData = PieChartData(slices),
             modifier = Modifier
@@ -54,7 +54,7 @@ fun PieChartDistribucionHabitos(data: Map<String, Int>) {
             sliceDrawer = SimpleSliceDrawer()
         )
 
-        // 📋 Leyenda textual externa con porcentajes
+        // Leyenda textual externa con porcentajes
         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
             data.entries
                 .sortedByDescending { it.value }
