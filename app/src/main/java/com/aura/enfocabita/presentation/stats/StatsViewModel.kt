@@ -17,11 +17,11 @@ class StatsViewModel(
     private val piechartUseCase : GetHabitCountByTypeUseCase
 ) : ViewModel() {
 
-    // 📊 Resumen textual semanal
+    //Resumen textual semanal
     private val _resumen = MutableStateFlow<ResumenEstadisticasSemana?>(null)
     val resumen: StateFlow<ResumenEstadisticasSemana?> = _resumen
 
-    // 📈 Datos para gráfico de barras
+    //Datos para gráfico de barras
     private val _graficoSemanal = MutableStateFlow<Map<String, Int>>(emptyMap())
     val graficoSemanal: StateFlow<Map<String, Int>> = _graficoSemanal
 
