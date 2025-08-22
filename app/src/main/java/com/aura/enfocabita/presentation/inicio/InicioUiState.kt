@@ -9,6 +9,6 @@ data class InicioUiState(
     val minutosPomodoro: Long = 0,
     val ultimaActividad: Date? = null,
     val nombreUsuario: String = "",
-    val rachaActual: Int = 0 // 👈 nuevo campo
+    val rachaActual: Int = 0 // nuevo campo
 
 )
