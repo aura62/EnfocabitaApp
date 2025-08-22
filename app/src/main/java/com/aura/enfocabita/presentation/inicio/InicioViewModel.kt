@@ -67,7 +67,7 @@ class InicioViewModel(
                 seleccionarFraseDelDia()
                 _uiState.value = InicioUiState(
                     isLoading = false,
-                    habitosCompletados = progreso.completados, // ✅ Corregido
+                    habitosCompletados = progreso.completados,
                     habitosTotales = progreso.total,
                     minutosPomodoro = minutosPomodoro,
                     ultimaActividad = ultimaActividad,
