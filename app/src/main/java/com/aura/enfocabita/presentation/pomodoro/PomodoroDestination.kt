@@ -1,7 +1,5 @@
 package com.aura.enfocabita.presentation.pomodoro
 
-// PomodoroDestination.kt
-
 sealed class PomodoroDestination(val ruta: String) {
     object Lista : PomodoroDestination("pomodoro/lista")
     object Form : PomodoroDestination("pomodoro/form")
