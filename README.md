@@ -55,7 +55,7 @@ SDK mínimo: Android 8.0 (API 26)
 Este proyecto se distribuye bajo licencia propietaria, tal como se indica en los términos del documento de licencia incluido en la aplicación.
 
 🙋‍♀️ Autor
-Desarrollado por Aura Villalta.
+Desarrollado por Aura
 Proyecto de fin de grado de DAM, orientado a la planificación, diseño e implementación de una aplicación real con objetivos funcionales y no funcionales que han sido definidos a lo largo del proyecto.
 
 
