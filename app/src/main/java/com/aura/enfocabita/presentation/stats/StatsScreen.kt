@@ -62,7 +62,7 @@ fun StatsScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // 🥧 Gráfico de pastel por tipo de hábito
+            // Gráfico de pastel por tipo de hábito
             if (habitDistribucion.isNotEmpty()) {
                 Text("Distribución por tipo de hábito", style = MaterialTheme.typography.titleMedium)
                 PieChartDistribucionHabitos(habitDistribucion)
